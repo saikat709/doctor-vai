@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  extensions = [pgvector(map: "vector")]
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("HealthWorker")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// CENTRAL PATIENT & SESSION MODELS
+// ==========================================
+
+model Patient {
+  id                  String                @id @default(uuid())
+  name                String
+  age                 Int
+  gender              String                // "Male" | "Female" | "Other"
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  
+  // Relations
+  sessions            ConsultationSession[]
+  vaccinationReminders VaccinationReminder[]
+}
+
+model ConsultationSession {
+  id                String             @id @default(uuid())
+  patientId         String
+  patient           Patient            @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // The core intake info entered ONCE by the worker
+  presentingSymptoms String            @db.Text
+  comorbidities      String            @default("None") // e.g., "Hypertension"
+  severityScore      String            @default("Medium") // "Low" | "Medium" | "High"
+  
+  // Unified AI Diagnostics attached to this specific intake info
+  riskAssessment     RiskAssessment?
+  diseaseAssessment  DiseaseAssessment?
+  medicineCheck      MedicineCheck?
+  
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+// ==========================================
+// INDIVIDUAL FEATURE MODULES (Linked to Session)
+// ==========================================
+
+model RiskAssessment {
+  id            String              @id @default(uuid())
+  sessionId     String              @unique
+  session       ConsultationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  // LLM Output
+  attentionLevel String             // "Standard Care" | "Monitor Closely" | "High Priority"
+  metrics        String[] 
+  precautions    String[] 
+  
+  createdAt     DateTime            @default(now())
+}
+
+model DiseaseAssessment {
+  id               String              @id @default(uuid())
+  sessionId        String              @unique
+  session          ConsultationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  // LLM Output
+  diagnoses        Json                // Array of: { diseaseName, likelihood, nextDiagnosticTest }
+  
+  createdAt        DateTime            @default(now())
+}
+
+model MedicineCheck {
+  id                String              @id @default(uuid())
+  sessionId         String              @unique
+  session           ConsultationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  prescribedMedicines String[] 
+  
+  // LLM Output
+  verdict           String              // "Go Ahead" | "Not Harmful" | "Moderate Harm" | "Seems Harmful"
+  explanation       String              @db.Text
+  alternatives      String[]
+  
+  createdAt         DateTime            @default(now())
+}
+
+// ==========================================
+// IMMUNIZATION & RAG KNOWLEDGE BASE
+// ==========================================
+
+model VaccinationReminder {
+  id               String   @id @default(uuid())
+  patientId        String
+  patient          Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  vaccineType      String   
+  administeredDate DateTime @default(now())
+  nextDoseDueDate  DateTime
+  status           String   @default("Pending") 
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model KnowledgeDocument {
+  id        String          @id @default(uuid())
+  fileName  String
+  fileSize  Int
+  status    String          @default("Processing") 
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  chunks    DocumentChunk[]
+}
+
+model DocumentChunk {
+  id         String            @id @default(uuid())
+  documentId String
+  document   KnowledgeDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  content    String            @db.Text 
+  embedding  Unsupported("vector(384)")? 
+
+  createdAt  DateTime          @default(now())
+}

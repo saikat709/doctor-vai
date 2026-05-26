@@ -1,0 +1,810 @@
+[
+  {
+    "id": 1,
+    "title": "Abdominal Ultrasound",
+    "category": "Imaging & Diagnostics",
+    "steps": [
+      "Ask patient to fast 4–6 hours prior to reduce bowel gas",
+      "Position patient supine on examination table",
+      "Apply ultrasound gel generously on abdomen",
+      "Place transducer on abdomen; start at right upper quadrant",
+      "Scan liver in longitudinal and transverse planes systematically",
+      "Move to gallbladder, bile ducts, pancreas, spleen, kidneys, aorta, bladder",
+      "Apply gentle pressure to displace bowel gas if needed",
+      "Document findings with labeled images and measurements",
+      "Wipe gel off patient and discuss findings"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Suturing a Wound",
+    "category": "Wound Care & Surgery",
+    "steps": [
+      "Clean wound thoroughly with normal saline; assess depth and edges",
+      "Inject local anesthetic (Lidocaine 1%) around wound edges",
+      "Set up sterile drape field; wear sterile gloves",
+      "Choose suture: Nylon/Prolene for skin, Vicryl for deeper tissue layers",
+      "Hold needle with needle driver at 90° angle to skin",
+      "Enter skin 3–5mm from wound edge; exit symmetrically on opposite side",
+      "Tie square knot with 3 throws minimum; cut tails at 3–4mm",
+      "Place sutures 5–10mm apart along entire wound length",
+      "Apply antibiotic ointment and sterile dressing",
+      "Advise removal timing: face 5 days, limbs 7–10 days, back 10–14 days"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "12-Lead ECG",
+    "category": "Cardiac Diagnostics",
+    "steps": [
+      "Position patient supine, relaxed, with limbs straight and uncrossed",
+      "Clean and dry skin; shave hair if electrode contact is poor",
+      "Place limb leads: RA (right arm), LA (left arm), RL (right leg), LL (left leg)",
+      "Place V1 at 4th intercostal space, right sternal border",
+      "Place V2 at 4th intercostal space, left sternal border",
+      "Place V3 between V2 and V4",
+      "Place V4 at 5th intercostal space, midclavicular line",
+      "Place V5 at anterior axillary line, same level as V4",
+      "Place V6 at midaxillary line, same level as V4–V5",
+      "Ask patient to lie still and not talk during recording",
+      "Run ECG and confirm clean trace with no artifact",
+      "Label strip with patient name, date, time, and clinical indication"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Lumbar Puncture (Spinal Tap)",
+    "category": "Neurological Procedures",
+    "steps": [
+      "Check contraindications: raised ICP, bleeding disorder, skin infection at site",
+      "Position patient in lateral decubitus with knees tucked to chest OR seated leaning forward",
+      "Identify L3–L4 or L4–L5 interspace at the level of iliac crests",
+      "Clean skin with chlorhexidine in wide circular motion; apply sterile drape",
+      "Inject local anesthetic into skin and deeper tissue layer",
+      "Insert spinal needle bevel-up at slight angle toward umbilicus",
+      "Advance slowly until a 'give' sensation indicates dura puncture",
+      "Remove stylet and confirm CSF drip",
+      "Measure opening pressure with manometer",
+      "Collect 3–4 tubes of 1–2ml each; label sequentially",
+      "Reinsert stylet before withdrawing needle",
+      "Apply dressing; keep patient flat for 1 hour post-procedure"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Chest Auscultation",
+    "category": "Physical Examination",
+    "steps": [
+      "Warm stethoscope diaphragm before placing on patient skin",
+      "Ask patient to breathe slowly and deeply through the mouth",
+      "Auscultate systematically: top to bottom, left to right, comparing both sides",
+      "Cover 4 anterior positions each side and 5 posterior positions each side",
+      "Note breath sounds: vesicular (normal), bronchial, absent, or reduced",
+      "Note added sounds: wheeze (airways narrowing), crackles (fluid or fibrosis), pleural rub",
+      "Document findings per lung zone clearly"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Abdominal Palpation",
+    "category": "Physical Examination",
+    "steps": [
+      "Ensure patient is relaxed and supine with arms by their sides",
+      "Warm hands and kneel or sit at patient level",
+      "Begin with light palpation across all 9 abdominal regions; watch face for pain",
+      "Proceed to deep palpation to assess organs",
+      "Palpate liver: right hand below right costal margin; ask patient to inhale",
+      "Palpate spleen: right hand at left costal margin during inspiration",
+      "Palpate kidneys: bimanual technique — one hand behind, one in front (balloting)",
+      "Check for tenderness, guarding, rigidity, and rebound tenderness",
+      "Percuss for shifting dullness if ascites is suspected"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Normal Vaginal Delivery",
+    "category": "Obstetrics",
+    "steps": [
+      "Confirm full cervical dilation (10cm); presenting part visible",
+      "Support perineum with one hand; apply gentle counter-pressure on fetal head",
+      "Guide head to extend slowly under pubic symphysis",
+      "Once head delivers, check for nuchal cord — loop over head if present",
+      "Allow head to restitute naturally to face one thigh",
+      "Guide head downward to deliver anterior shoulder, then upward for posterior shoulder",
+      "Support baby as body delivers; note exact delivery time",
+      "Double clamp cord and cut between clamps",
+      "Deliver placenta with controlled cord traction plus maternal pushing",
+      "Inspect placenta for completeness; assess for perineal tears",
+      "Suture tears if present; monitor maternal bleeding closely for 1 hour"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Plaster Cast Application",
+    "category": "Orthopaedics",
+    "steps": [
+      "Confirm fracture position on X-ray; ensure reduction is adequate",
+      "Apply stockinette over the limb extending beyond both cast edges",
+      "Wrap cotton wool padding evenly with extra over all bony prominences",
+      "Dip plaster of Paris bandage in warm water; squeeze out excess water",
+      "Apply in smooth overlapping layers with 50% overlap, molding gently",
+      "Fold stockinette back over edges and seal with a final plaster layer",
+      "Hold limb in correct anatomical position until cast sets (5–10 minutes)",
+      "Check 5 P's after casting: Pain, Pallor, Pulse, Paralysis, Paresthesia",
+      "Advise patient to elevate limb and return immediately if fingers or toes swell or go numb"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "IV Cannulation (Peripheral)",
+    "category": "Vascular Access",
+    "steps": [
+      "Gather equipment: appropriate gauge cannula, tourniquet, flush syringe, tape, gloves",
+      "Apply tourniquet 10–15cm above the intended insertion site",
+      "Select vein; clean site with chlorhexidine or alcohol swab and allow to dry",
+      "Insert cannula bevel-up at 15–30° angle to skin",
+      "Confirm blood flashback in the cannula chamber",
+      "Advance plastic cannula forward while withdrawing the metal stylet",
+      "Release tourniquet; connect IV line or flush with 5ml normal saline",
+      "Secure with transparent dressing; document date, time, and gauge size"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Intramuscular (IM) Injection",
+    "category": "Medication Administration",
+    "steps": [
+      "Verify medication, dose, route, expiry, and patient identity (5 Rights)",
+      "Select injection site: deltoid, vastus lateralis, or ventrogluteal",
+      "Wash hands and apply non-sterile gloves",
+      "Clean site with alcohol swab in circular motion; allow to dry fully",
+      "Insert needle swiftly at 90° with firm motion",
+      "Aspirate by pulling back plunger — if blood appears, withdraw and restart",
+      "Inject medication slowly and steadily",
+      "Withdraw needle smoothly; apply gentle pressure without rubbing",
+      "Dispose of needle immediately in sharps container"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Subcutaneous (SC) Injection",
+    "category": "Medication Administration",
+    "steps": [
+      "Confirm medication and patient identity (insulin, heparin, vaccines)",
+      "Select site: abdomen, upper arm, or thigh; rotate sites each time",
+      "Clean with alcohol swab; allow to dry completely",
+      "Pinch skin firmly to lift subcutaneous tissue away from muscle",
+      "Insert needle at 45–90° depending on patient body composition",
+      "Inject medication slowly and steadily",
+      "Release pinched skin before withdrawing needle",
+      "Apply light pressure; dispose needle in sharps container immediately"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Nasogastric (NG) Tube Insertion",
+    "category": "Airway & GI Procedures",
+    "steps": [
+      "Explain procedure to patient and position upright or semi-reclined",
+      "Measure tube length: tip of nose to earlobe to xiphoid process; mark on tube",
+      "Lubricate tube tip generously with water-soluble gel",
+      "Insert through chosen nostril and advance toward back of throat",
+      "Ask patient to swallow repeatedly as tube advances past the pharynx",
+      "Advance to marked length",
+      "Confirm placement by aspirating gastric contents and checking pH (<5.5) or via CXR",
+      "Secure tube to nose with tape; document length at nostril, date, and time"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Urinary Catheterization",
+    "category": "Urological Procedures",
+    "steps": [
+      "Maintain strict aseptic technique throughout entire procedure",
+      "Position patient and drape appropriately for privacy and access",
+      "Clean urethral meatus with antiseptic solution (front to back in females)",
+      "Lubricate catheter tip generously with sterile gel",
+      "Insert catheter gently until urine flows freely; advance 2cm further",
+      "Inflate balloon with specified volume of sterile water per catheter label",
+      "Connect to closed drainage bag and secure tubing to inner thigh",
+      "Document catheter size, balloon volume, initial urine output, and time"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Oxygen Administration",
+    "category": "Respiratory Procedures",
+    "steps": [
+      "Assess SpO2 via pulse oximeter and measure respiratory rate",
+      "Select delivery device based on required FiO2:",
+      "  – Nasal cannula: 1–6 L/min (24–44% FiO2) for mild hypoxia",
+      "  – Simple face mask: 6–10 L/min for moderate hypoxia",
+      "  – Non-rebreather mask: 10–15 L/min for severe hypoxia",
+      "Set correct flow rate on oxygen cylinder or wall supply",
+      "Apply device and confirm proper fit and seal",
+      "Recheck SpO2 after 5 minutes; target >94% (88–92% for COPD patients)",
+      "Document flow rate, delivery device used, and SpO2 response"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Basic Life Support (BLS / CPR)",
+    "category": "Emergency Procedures",
+    "steps": [
+      "Confirm scene safety before approaching patient",
+      "Check responsiveness: tap shoulders and shout loudly",
+      "Call for emergency help or send bystander to call",
+      "Check for breathing for no more than 10 seconds",
+      "Begin chest compressions: heel of hand on center of chest",
+      "Compress at least 5cm deep at a rate of 100–120 per minute",
+      "Give 2 rescue breaths after every 30 compressions (30:2 ratio)",
+      "Attach AED as soon as available and follow all voice prompts",
+      "Continue CPR until patient shows signs of life, AED advises no shock, or help arrives"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Blood Glucose Measurement",
+    "category": "Assessment & Monitoring",
+    "steps": [
+      "Wash patient hands with soap and warm water; dry completely",
+      "Insert a fresh test strip into the glucometer",
+      "Prick the lateral side of fingertip with a lancet",
+      "Wipe away the first drop of blood with clean gauze",
+      "Apply the second blood drop to the test strip",
+      "Read the result within the device's stated time window",
+      "Record value with timestamp; normal fasting range: 4.0–5.5 mmol/L (72–99 mg/dL)",
+      "Dispose of lancet in sharps container"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Blood Pressure Measurement",
+    "category": "Assessment & Monitoring",
+    "steps": [
+      "Have patient sit quietly for 5 minutes with arm supported at heart level",
+      "Apply cuff 2–3cm above the antecubital fossa (inner elbow crease)",
+      "Inflate cuff to approximately 30 mmHg above expected systolic pressure",
+      "Deflate slowly at 2–3 mmHg per second while listening with stethoscope",
+      "Record first Korotkoff sound as systolic pressure",
+      "Record disappearance of sound as diastolic pressure",
+      "Take 2 readings 1–2 minutes apart and average the values",
+      "Normal reading: below 120/80 mmHg; flag if above 140/90 mmHg"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Wound Dressing Change",
+    "category": "Wound Care & Surgery",
+    "steps": [
+      "Assemble sterile field: gloves, normal saline, gauze, appropriate dressing",
+      "Remove old dressing; moisten with saline if adhered to wound bed",
+      "Observe wound: note size, depth, color, odor, exudate, surrounding skin condition",
+      "Irrigate wound with normal saline using a 20ml syringe",
+      "Select appropriate dressing: dry gauze, foam, hydrocolloid, or silver dressing based on wound type",
+      "Apply dressing without excessive tension; do not over-tape",
+      "Document wound findings and schedule next dressing change"
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Arterial Blood Gas (ABG) Sampling",
+    "category": "Vascular Access",
+    "steps": [
+      "Perform Allen's test to confirm collateral circulation before radial artery puncture",
+      "Position patient's wrist extended with a roll of gauze underneath",
+      "Clean radial artery site with alcohol swab; allow to dry",
+      "Insert heparinized syringe needle bevel-up at 45–60° directly over artery pulsation",
+      "Allow blood to fill syringe passively — do not pull back plunger",
+      "Withdraw needle when 1–2ml collected; apply firm pressure for 5 minutes",
+      "Expel air bubbles from syringe immediately; cap and mix gently",
+      "Label and transport on ice to analyzer within 15 minutes",
+      "Document FiO2 and patient temperature at time of sampling"
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Ophthalmoscopy (Fundus Examination)",
+    "category": "Eye Examination",
+    "steps": [
+      "Dim room lights; dilate pupil with tropicamide drops if needed",
+      "Ask patient to fix gaze on a distant target",
+      "Set ophthalmoscope to 0 diopters; use right eye to examine patient's right eye",
+      "Approach from 15° temporal to patient's line of sight",
+      "Locate optic disc first: round, pale orange, clear margins",
+      "Follow each vessel outward from disc in 4 quadrants",
+      "Examine macula last: ask patient to look directly at light",
+      "Note: disc color, cup-to-disc ratio, vessel changes, hemorrhages, exudates",
+      "Repeat for left eye using your left eye"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Ear Examination (Otoscopy)",
+    "category": "ENT Examination",
+    "steps": [
+      "Select appropriate speculum size for patient age",
+      "For adults: pull pinna upward and backward to straighten the canal",
+      "For children under 3: pull pinna downward and backward",
+      "Gently insert speculum into the outer third of the ear canal only",
+      "Inspect canal for wax, foreign bodies, discharge, or inflammation",
+      "Visualize tympanic membrane: note color (pearly grey = normal), light reflex, landmarks",
+      "Check for perforation, retraction, bulging, or fluid behind eardrum",
+      "Document findings for both ears"
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Throat Examination",
+    "category": "ENT Examination",
+    "steps": [
+      "Ask patient to open mouth wide and say 'Ahh' to lower tongue",
+      "Use tongue depressor to depress mid-tongue; illuminate with pen torch",
+      "Inspect tonsils: size (graded 1–4), color, surface, presence of exudate or crypts",
+      "Inspect posterior pharyngeal wall: redness, discharge, lymphoid follicles",
+      "Check uvula position: midline or deviated",
+      "Inspect soft palate movement: should elevate symmetrically on phonation",
+      "Palpate neck for lymphadenopathy: submandibular, anterior and posterior cervical chains",
+      "Document all findings clearly"
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Peak Flow Measurement",
+    "category": "Respiratory Procedures",
+    "steps": [
+      "Attach clean mouthpiece to peak flow meter; set marker to zero",
+      "Ask patient to stand or sit upright",
+      "Instruct patient to inhale as deeply as possible",
+      "Seal lips tightly around mouthpiece and blow out as hard and fast as possible",
+      "Record the reading on the gauge",
+      "Repeat 3 times; record the best of 3 readings",
+      "Compare with patient's personal best or predicted value for age, sex, height",
+      "Normal: >80% predicted; moderate: 50–80%; severe: <50%"
+    ]
+  },
+  {
+    "id": 24,
+    "title": "Intravenous Fluid Administration",
+    "category": "Vascular Access",
+    "steps": [
+      "Confirm fluid type, volume, and rate as prescribed",
+      "Check IV fluid bag: clarity, expiry, leaks, and correct label",
+      "Spike the bag with IV giving set; prime the line fully to remove all air",
+      "Connect to patient's existing IV cannula after confirming patency",
+      "Set drip rate manually or program infusion pump",
+      "Verify flow: 1 litre over 8 hours = 42 drops/minute (standard giving set)",
+      "Monitor site every 30 minutes for swelling, redness, or pain (extravasation)",
+      "Document fluid type, volume, start time, and rate"
+    ]
+  },
+  {
+    "id": 25,
+    "title": "Pleural Aspiration (Thoracocentesis)",
+    "category": "Respiratory Procedures",
+    "steps": [
+      "Confirm effusion on CXR or ultrasound; mark insertion site",
+      "Position patient sitting upright and leaning forward over a table",
+      "Identify site: one intercostal space below fluid level, mid-scapular line",
+      "Clean with chlorhexidine; apply sterile drape",
+      "Inject local anesthetic down to pleura; insert needle just above rib (avoid neurovascular bundle below)",
+      "Advance needle while aspirating until fluid is obtained",
+      "Connect to 3-way stopcock and syringe; drain fluid slowly",
+      "Do not remove more than 1.5 litres at once (risk of re-expansion pulmonary edema)",
+      "Withdraw needle; apply dressing; obtain CXR post-procedure"
+    ]
+  },
+  {
+    "id": 26,
+    "title": "Chest Tube Insertion",
+    "category": "Respiratory Procedures",
+    "steps": [
+      "Confirm indication: pneumothorax, hemothorax, or large effusion",
+      "Position patient supine with arm raised behind head; identify 4th–5th intercostal space, anterior axillary line",
+      "Clean and drape; infiltrate with local anesthetic down to pleura",
+      "Make 2–3cm horizontal incision over top of rib",
+      "Blunt dissect with clamp through chest wall; puncture pleura with controlled push",
+      "Insert finger to confirm pleural space and clear of lung",
+      "Insert chest tube (clamped) guided by finger; direct posteriorly and superiorly",
+      "Unclamp and connect to underwater seal drain",
+      "Confirm position: tube fogs, water swings with breathing",
+      "Secure tube with suture and occlusive dressing; obtain CXR"
+    ]
+  },
+  {
+    "id": 27,
+    "title": "Neonatal Resuscitation",
+    "category": "Emergency Procedures",
+    "steps": [
+      "Prepare warm, dry environment and resuscitation equipment before delivery",
+      "At birth: dry baby, assess tone, breathing, and color simultaneously",
+      "Stimulate by rubbing back if not breathing; reposition airway",
+      "If not breathing within 60 seconds: start positive pressure ventilation (PPV) at 40–60 breaths/min",
+      "Check chest rise with each PPV breath; correct mask seal if absent",
+      "If HR <60 after 30 seconds of adequate PPV: start chest compressions 3:1 ratio with ventilations",
+      "Administer IV adrenaline (epinephrine) if HR remains <60 after 30 seconds of compressions",
+      "Reassess HR every 30 seconds; continue until spontaneous breathing established",
+      "Document times of interventions, APGAR scores, and response"
+    ]
+  },
+  {
+    "id": 28,
+    "title": "Antenatal (Prenatal) Examination",
+    "category": "Obstetrics",
+    "steps": [
+      "Confirm gestational age by LMP and/or ultrasound",
+      "Measure weight and blood pressure at every visit",
+      "Measure symphysis-fundal height (SFH) from 24 weeks: should equal weeks of gestation ±2cm",
+      "Palpate uterus using Leopold's Maneuvers: assess lie, presentation, position, engagement",
+      "Auscultate fetal heart rate: normal 110–160 bpm",
+      "Check for peripheral edema, varicosities, and signs of anemia (conjunctival pallor)",
+      "Perform urine dipstick: check for protein and glucose",
+      "Review blood results: Hb, blood group, syphilis, HIV, hepatitis B at booking",
+      "Counsel on danger signs: bleeding, reduced fetal movement, headache, visual disturbance"
+    ]
+  },
+  {
+    "id": 29,
+    "title": "Intravenous Drug Administration",
+    "category": "Medication Administration",
+    "steps": [
+      "Verify 5 Rights: right patient, drug, dose, route, and time",
+      "Check for drug allergies; review compatibility with existing IV fluids",
+      "Prepare drug aseptically: reconstitute powder with correct diluent if needed",
+      "Draw up into syringe; label clearly",
+      "Flush IV cannula with 5ml normal saline to confirm patency",
+      "Administer IV bolus slowly over stated time (e.g., morphine over 5 minutes)",
+      "Flush again with 5ml saline after administration",
+      "Monitor patient for 5–10 minutes for adverse reactions",
+      "Document drug, dose, time, route, batch number, and patient response"
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Skin Biopsy (Punch Biopsy)",
+    "category": "Dermatology Procedures",
+    "steps": [
+      "Identify lesion; document site with photograph if available",
+      "Clean site with alcohol swab; allow to dry",
+      "Inject local anesthetic (Lidocaine 1%) subcutaneously around lesion",
+      "Stretch skin perpendicular to skin tension lines",
+      "Press punch biopsy tool firmly and rotate in one direction only until resistance reduces",
+      "Lift core with needle or fine forceps from the base without crushing",
+      "Cut base with fine scissors",
+      "Place specimen in formalin-filled container immediately; label correctly",
+      "Close defect with 1–2 sutures or allow to heal by secondary intention",
+      "Apply dressing; send specimen with completed histology request form"
+    ]
+  },
+  {
+    "id": 31,
+    "title": "Ascitic Tap (Paracentesis)",
+    "category": "GI Procedures",
+    "steps": [
+      "Confirm ascites on clinical examination and ultrasound",
+      "Position patient supine; identify insertion site in left iliac fossa (avoids inferior epigastric vessels)",
+      "Clean with chlorhexidine; apply sterile drape",
+      "Inject local anesthetic down to peritoneum",
+      "Insert cannula or needle using Z-track technique to prevent leak",
+      "Connect to drainage bag; allow to drain slowly",
+      "For diagnostic tap: collect 20–50ml for cytology, protein, albumin, culture",
+      "For therapeutic tap: drain up to 5 litres; give albumin replacement (8g per litre drained)",
+      "Withdraw needle; apply firm pressure and dressing",
+      "Monitor vitals post-procedure; watch for hypotension"
+    ]
+  },
+  {
+    "id": 32,
+    "title": "Knee Joint Aspiration",
+    "category": "Orthopaedics",
+    "steps": [
+      "Confirm effusion by patellar tap or ballottement",
+      "Position patient supine with knee slightly flexed on pillow",
+      "Clean with chlorhexidine; apply sterile drape and gloves",
+      "Inject local anesthetic into skin lateral to patella",
+      "Insert needle at mid-patella laterally, aiming toward joint space at 45°",
+      "Aspirate fluid: note color (clear = normal, yellow = infection, bloody = trauma or hemarthrosis)",
+      "Drain as much fluid as possible with syringe",
+      "If injecting corticosteroid: change syringe without moving needle",
+      "Withdraw needle; apply pressure and dressing",
+      "Send fluid for microscopy, culture, and crystal analysis"
+    ]
+  },
+  {
+    "id": 33,
+    "title": "Cervical Smear (Pap Smear)",
+    "category": "Gynaecological Procedures",
+    "steps": [
+      "Confirm indication; ensure patient has not menstruated or used vaginal products for 24 hours",
+      "Position patient in lithotomy; ensure privacy and comfort",
+      "Insert appropriately sized speculum gently; visualize the cervix",
+      "Use Cervex-Brush: insert central bristles into endocervical canal",
+      "Rotate brush clockwise 5 full turns to collect cells",
+      "Rinse brush head into liquid-based cytology vial by rotating and pressing against vial wall",
+      "Withdraw speculum; assist patient to sit up",
+      "Label vial with patient name, DOB, LMP, and send with completed request form"
+    ]
+  },
+  {
+    "id": 34,
+    "title": "Endotracheal Intubation",
+    "category": "Airway & Emergency",
+    "steps": [
+      "Pre-oxygenate patient with 100% O2 for 3 minutes via bag-valve mask",
+      "Prepare equipment: ETT (correct size), laryngoscope, syringe, tape, suction",
+      "Position patient: sniffing position (head extended, neck flexed) on flat surface",
+      "Administer induction agent and neuromuscular blocker (RSI if needed)",
+      "Hold laryngoscope in left hand; insert blade into right side of mouth and sweep tongue left",
+      "Lift laryngoscope up and forward (not rotating back) to expose glottis",
+      "Visualize vocal cords; insert ETT through cords to correct depth (21cm women, 23cm men)",
+      "Inflate cuff with 5–10ml air; confirm placement by EtCO2 waveform and bilateral breath sounds",
+      "Secure tube with tape or holder; document tube size and depth at teeth",
+      "Obtain CXR to confirm position (tip should be 2–4cm above carina)"
+    ]
+  },
+  {
+    "id": 35,
+    "title": "Newborn Examination",
+    "category": "Paediatrics",
+    "steps": [
+      "Perform in warm room within 24 hours of birth",
+      "Assess APGAR score at 1 and 5 minutes: tone, pulse, grimace, appearance, respiration",
+      "Measure weight, length, and head circumference; plot on growth chart",
+      "Inspect head: fontanelles, sutures, caput, cephalohematoma",
+      "Examine eyes: red reflex bilaterally (absence suggests cataract or retinoblastoma)",
+      "Inspect palate for cleft with finger and torch",
+      "Auscultate heart: murmurs, rate, rhythm",
+      "Auscultate lungs bilaterally",
+      "Palpate abdomen: liver, spleen, kidneys; check umbilical cord",
+      "Examine hips: Barlow and Ortolani maneuvers for developmental dysplasia",
+      "Inspect spine: sacral dimple, neural tube defects",
+      "Check genitalia, anus, and limbs for anomalies",
+      "Elicit Moro, grasp, and rooting reflexes"
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Neurological Examination",
+    "category": "Physical Examination",
+    "steps": [
+      "Assess consciousness level using GCS: Eyes (1–4), Verbal (1–5), Motor (1–6)",
+      "Test orientation: person, place, time",
+      "Examine cranial nerves I–XII systematically",
+      "Assess motor system: bulk, tone, power (MRC scale 0–5) in all 4 limbs",
+      "Test reflexes: biceps (C5/C6), triceps (C7), knee (L3/L4), ankle (S1), plantar response",
+      "Assess coordination: finger-nose test, heel-shin test, dysdiadochokinesia",
+      "Test sensation: light touch, pinprick, vibration, proprioception",
+      "Assess gait: observe walking, heel-to-toe walking, Romberg's test",
+      "Document findings by region and side clearly"
+    ]
+  },
+  {
+    "id": 37,
+    "title": "Chest X-Ray Interpretation",
+    "category": "Imaging & Diagnostics",
+    "steps": [
+      "Check patient name, date, and view (PA vs AP); note any rotation or poor inspiration",
+      "Assess bones: ribs, clavicles, scapulae, vertebrae for fractures or lesions",
+      "Examine trachea: should be midline",
+      "Assess heart: size (cardiothoracic ratio <0.5 on PA view), borders, shape",
+      "Examine hila: position, size, density",
+      "Review lung fields systematically: upper, mid, lower zones bilaterally",
+      "Look for: consolidation, effusion, pneumothorax, masses, lymphadenopathy",
+      "Examine diaphragm: hemidiaphragm levels, costophrenic angles (blunting = effusion)",
+      "Check soft tissues and visible abdomen",
+      "Formulate findings into a structured report"
+    ]
+  },
+  {
+    "id": 38,
+    "title": "Spinal Immobilization",
+    "category": "Emergency Procedures",
+    "steps": [
+      "Assume spinal injury in any unconscious trauma patient or significant mechanism of injury",
+      "Manually stabilize head and neck in neutral alignment immediately",
+      "Apply correctly sized rigid cervical collar",
+      "Log-roll patient as a unit with 3–4 people: one controls head, others control body",
+      "During log-roll: inspect back for wounds, deformity, or step deformities",
+      "Place patient on spinal board or scoop stretcher",
+      "Secure patient with straps at chest, pelvis, and thighs",
+      "Use head blocks and tape across forehead and chin to restrict head movement",
+      "Reassess neurological function: motor and sensation in all 4 limbs"
+    ]
+  },
+  {
+    "id": 39,
+    "title": "Ear Syringing (Ear Irrigation)",
+    "category": "ENT Procedures",
+    "steps": [
+      "Confirm no perforation, discharge, or previous ear surgery before proceeding",
+      "Instruct patient to use olive oil or sodium bicarbonate drops for 3–5 days prior to soften wax",
+      "Warm water to body temperature (37°C) to avoid caloric stimulation and vertigo",
+      "Seat patient; place kidney bowl under ear and against neck",
+      "Pull pinna upward and backward to straighten canal",
+      "Direct stream of water toward posterior-superior wall of canal (not directly at drum)",
+      "Use gentle continuous pressure; check canal between syringes",
+      "Once clear, dry canal with soft tissue or suction",
+      "Perform otoscopy to confirm drum is intact and canal is clear",
+      "Advise to avoid water in ear for 24 hours"
+    ]
+  },
+  {
+    "id": 40,
+    "title": "Anaphylaxis Management",
+    "category": "Emergency Procedures",
+    "steps": [
+      "Remove or stop the triggering agent immediately",
+      "Call for emergency help; note time of onset",
+      "Administer Adrenaline (Epinephrine) 0.5mg IM into outer thigh (anterolateral) immediately",
+      "Position patient: supine with legs raised unless breathing difficulty",
+      "Give high-flow oxygen 15L/min via non-rebreather mask",
+      "Establish IV access; give 500–1000ml normal saline bolus for hypotension",
+      "Repeat adrenaline every 5 minutes if no improvement",
+      "Give IV Chlorphenamine (antihistamine) and IV Hydrocortisone as secondary measures",
+      "Monitor continuously: BP, HR, SpO2, respiratory rate",
+      "Observe for minimum 6–12 hours for biphasic reaction; admit if severe"
+    ]
+  },
+  {
+    "id": 41,
+    "title": "Cardioversion (DC Cardioversion)",
+    "category": "Cardiac Procedures",
+    "steps": [
+      "Confirm indication: AF, SVT, VT with pulse (not for VF — use defibrillation)",
+      "Obtain informed consent; ensure anticoagulation if AF >48 hours",
+      "Ensure IV access; attach ECG monitoring and pulse oximeter",
+      "Sedate patient: Midazolam or Propofol with airway support ready",
+      "Apply self-adhesive pads: one below right clavicle, one apex (V5 position)",
+      "Select synchronized mode (SYNC) — critical to avoid R-on-T phenomenon",
+      "Select energy: AF 120–200J biphasic; SVT/VT 50–100J",
+      "Ensure all personnel stand clear of patient and bed",
+      "Deliver shock; immediately assess rhythm and pulse",
+      "Repeat with escalating energy if unsuccessful; document rhythm after each shock"
+    ]
+  },
+  {
+    "id": 42,
+    "title": "Male Genital Examination",
+    "category": "Physical Examination",
+    "steps": [
+      "Ensure privacy, chaperone present, and patient consent obtained",
+      "Inspect penis: skin, meatus position (hypospadias), foreskin retraction, discharge",
+      "Inspect scrotum: skin, symmetry (left side normally lower)",
+      "Palpate each testis: size, shape, consistency, tenderness",
+      "Palpate epididymis: posterior to testis; check for tenderness or cysts",
+      "Transilluminate any scrotal swelling: hydrocele transilluminates, solid mass does not",
+      "Check for varicocele: palpate while patient stands and performs Valsalva",
+      "Palpate inguinal canal for hernias",
+      "Document all findings systematically"
+    ]
+  },
+  {
+    "id": 43,
+    "title": "Thyroid Examination",
+    "category": "Physical Examination",
+    "steps": [
+      "Inspect neck from front: look for visible goitre; ask patient to swallow (thyroid moves up)",
+      "Offer glass of water; watch for thyroid movement on swallowing",
+      "Palpate from behind with both hands: assess size, shape, symmetry, surface texture",
+      "Check for nodules: single or multiple, hard or soft, tender or non-tender",
+      "Percuss over sternum for retrosternal extension",
+      "Auscultate over thyroid for bruit (suggests hypervascular Graves' disease)",
+      "Assess for signs of hyper/hypothyroidism: tremor, tachycardia, eye signs, slow relaxing reflexes",
+      "Palpate cervical lymph nodes for lymphadenopathy"
+    ]
+  },
+  {
+    "id": 44,
+    "title": "Urinalysis (Urine Dipstick)",
+    "category": "Assessment & Monitoring",
+    "steps": [
+      "Request midstream urine (MSU) sample; ensure clean catch technique",
+      "Check urine visually: color, clarity, and any obvious abnormalities",
+      "Remove dipstick from sealed container; do not touch reagent pads",
+      "Dip stick fully into urine for 1–2 seconds; remove and hold horizontally",
+      "Wait specified time per manufacturer (usually 60 seconds for most pads)",
+      "Compare pads to color chart in good lighting; read in correct order",
+      "Record results: pH, protein, glucose, ketones, blood, nitrites, leukocytes, bilirubin, urobilinogen",
+      "Positive nitrites + leukocytes = UTI until proven otherwise; send for culture",
+      "Document results, collection method, and any follow-up action"
+    ]
+  },
+  {
+    "id": 45,
+    "title": "Intraosseous (IO) Access",
+    "category": "Emergency Vascular Access",
+    "steps": [
+      "Indicated when IV access cannot be obtained rapidly in emergency (especially in children)",
+      "Select site: proximal tibia (2cm below tibial tuberosity, medial flat surface) or proximal humerus",
+      "Clean site with chlorhexidine; apply local anesthetic if patient is conscious",
+      "Insert IO needle or drill at 90° to bone surface with firm controlled pressure",
+      "Confirm placement: needle stands upright without support; aspiration of bone marrow; fluids flow without extravasation",
+      "Flush with 10ml normal saline; expect slight resistance then free flow",
+      "Secure needle and connect to IV fluid or syringe driver",
+      "All IV drugs and fluids can be administered via IO route",
+      "Remove as soon as IV access is established (within 24 hours maximum)"
+    ]
+  },
+  {
+    "id": 46,
+    "title": "Intercostal Nerve Block",
+    "category": "Pain Management Procedures",
+    "steps": [
+      "Identify indication: rib fracture pain, post-thoracotomy, chest drain insertion",
+      "Position patient: sitting or lateral decubitus with arm raised",
+      "Identify target ribs; mark insertion points at posterior angle of ribs",
+      "Clean with chlorhexidine and drape",
+      "Insert needle at lower border of rib, walking needle below rib edge to inferior margin",
+      "Advance 2–3mm past rib; aspirate to exclude vessel or lung puncture",
+      "Inject 3–5ml of Bupivacaine 0.5% per level",
+      "Block one level above and below target rib due to overlap",
+      "Monitor for pneumothorax (rare complication) with SpO2 and CXR if concerned"
+    ]
+  },
+  {
+    "id": 47,
+    "title": "Intrapartum Fetal Monitoring (CTG Interpretation)",
+    "category": "Obstetrics",
+    "steps": [
+      "Apply external CTG monitor: Doppler probe over fetal back, tocometer on fundus",
+      "Record for minimum 20 minutes; ensure adequate trace quality",
+      "Assess baseline fetal heart rate: normal 110–160 bpm",
+      "Assess baseline variability: normal 5–25 bpm variation",
+      "Identify accelerations: rise >15 bpm for >15 seconds (reassuring sign)",
+      "Identify decelerations: early (with contractions, normal), late (after contraction peak, concerning), variable (cord compression)",
+      "Classify CTG as: Normal (all 4 features reassuring), Suspicious (1 non-reassuring), Pathological (2+ non-reassuring or 1 abnormal)",
+      "For pathological CTG: fetal blood sampling or expedite delivery",
+      "Document interpretation and clinical decision with timestamp"
+    ]
+  },
+  {
+    "id": 48,
+    "title": "Ophthalmology: Visual Acuity Testing",
+    "category": "Eye Examination",
+    "steps": [
+      "Use Snellen chart at 6 metres (or equivalent LogMAR chart)",
+      "Test each eye separately; cover the other eye fully without pressing on it",
+      "Patient wears their usual glasses or contact lenses if distance-corrected",
+      "Ask patient to read smallest line they can see clearly from top to bottom",
+      "Record as fraction: 6/6 (normal), 6/12 (sees at 6m what normal person sees at 12m)",
+      "If unable to read top line at 6m: move patient to 3m and retest",
+      "If still unable: test counting fingers (CF), hand movements (HM), perception of light (PL)",
+      "Repeat with pinhole occluder: improvement suggests refractive error; no improvement suggests pathology",
+      "Document results for each eye separately"
+    ]
+  },
+  {
+    "id": 49,
+    "title": "Fracture Reduction (Closed Manipulation)",
+    "category": "Orthopaedics",
+    "steps": [
+      "Review X-ray: confirm fracture type, displacement, and angulation",
+      "Obtain informed consent; explain procedure and risks",
+      "Administer adequate analgesia: IV morphine or haematoma block with Lidocaine",
+      "Apply steady longitudinal traction along the axis of the limb",
+      "Recreate the deformity slightly to disimpact the fracture fragments",
+      "Reverse the deformity with controlled manipulation to achieve reduction",
+      "Maintain reduction while assistant applies backslab or cast",
+      "Confirm reduction with post-manipulation X-ray in 2 views",
+      "Check neurovascular status distally post-reduction: pulses, sensation, capillary refill",
+      "Arrange follow-up X-ray in 1 week to check for re-displacement"
+    ]
+  },
+  {
+    "id": 50,
+    "title": "Neonatal Jaundice Assessment",
+    "category": "Paediatrics",
+    "steps": [
+      "Assess onset timing: jaundice within 24 hours is always pathological",
+      "Examine in natural daylight; press skin gently and observe underlying color",
+      "Estimate extent using Kramer's zones: face (zone 1) to feet (zone 5) as levels progress",
+      "Measure serum bilirubin (SBR) — transcutaneous bilirubinometer is screening only; confirm with blood if above threshold",
+      "Plot SBR on age-in-hours treatment threshold chart (NICE or local guidelines)",
+      "Check blood group, Coombs test, FBC, and reticulocyte count for haemolytic causes",
+      "Start phototherapy if SBR is at or above treatment line",
+      "Recheck SBR 4–6 hours after starting phototherapy",
+      "Exchange transfusion if SBR reaches exchange line despite phototherapy",
+      "Ensure adequate feeding (jaundice worsens with dehydration)"
+    ]
+  }
+]
