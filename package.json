@@ -1,5 +1,5 @@
 {
-  "name": "aid-pulse-ai",
+  "name": "doctor-vai",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,9 +11,17 @@
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hot-toast": "^2.6.0",
+    "@prisma/client": "7.8.0",
+    "next-auth": "4.24.14",
+    "react-icons": "5.6.0",
+    "pg": "8.21.0",
+    "pgvector": "0.2.1",
+    "openai": "6.39.0"
   },
   "devDependencies": {
+    "prisma": "7.8.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
