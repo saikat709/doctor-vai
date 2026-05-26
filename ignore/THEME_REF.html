@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AidPulse AI - Healthcare Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#00e6b8",
+                        "on-surface": "#e8e0f0",
+                        "surface-tint": "#ff2d78",
+                        "primary-fixed-dim": "#ff80aa",
+                        "on-error-container": "#ffa0a0",
+                        "surface-container-low": "#111118",
+                        "surface-bright": "#1a1a2e",
+                        "on-primary": "#1a0010",
+                        "secondary-fixed": "#c0fff4",
+                        "surface-variant": "#1e1e30",
+                        "surface-container-high": "#1e1e30",
+                        "on-primary-fixed-variant": "#8c0038",
+                        "on-background": "#e8e0f0",
+                        "on-secondary-fixed": "#001a1a",
+                        "on-surface-variant": "#a098b0",
+                        "on-primary-fixed": "#3d0020",
+                        "surface": "#0f0f1a",
+                        "on-tertiary-fixed": "#1a1000",
+                        "inverse-surface": "#e8e0f0",
+                        "secondary": "#00ffcc",
+                        "tertiary": "#ffe04a",
+                        "inverse-primary": "#8c0038",
+                        "on-secondary": "#001a1a",
+                        "primary-fixed": "#ffe0ec",
+                        "on-secondary-fixed-variant": "#004d4d",
+                        "surface-container": "#141422",
+                        "outline-variant": "#302840",
+                        "surface-dim": "#0f0f1a",
+                        "outline": "#5a5068",
+                        "surface-container-highest": "#28283e",
+                        "surface-container-lowest": "#0a0a12",
+                        "on-error": "#1a0000",
+                        "tertiary-container": "#665200",
+                        "on-tertiary": "#1a1000",
+                        "background": "#0a0a12",
+                        "on-tertiary-fixed-variant": "#665200",
+                        "on-primary-container": "#ffe0ec",
+                        "error-container": "#3d0f0f",
+                        "inverse-on-surface": "#0a0a12",
+                        "tertiary-fixed-dim": "#ffe04a",
+                        "primary-container": "#b3004e",
+                        "tertiary-fixed": "#fff0c0",
+                        "on-tertiary-container": "#fff0c0",
+                        "on-secondary-container": "#c0fff4",
+                        "secondary-container": "#004d3d",
+                        "primary": "#ff2d78",
+                        "error": "#ff4444"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "8px",
+                        "gutter": "24px",
+                        "sm": "16px",
+                        "margin-desktop": "48px",
+                        "xl": "64px",
+                        "margin-mobile": "20px",
+                        "lg": "40px",
+                        "base": "4px",
+                        "md": "24px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Sora"],
+                        "display": ["Sora"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a12;
+            color: #e8e0f0;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .font-headline {
+            font-family: 'Sora', sans-serif;
+        }
+        .neon-glass {
+            backdrop-filter: blur(12px);
+            background: rgba(20, 20, 34, 0.7);
+            border: 1px solid rgba(255, 45, 120, 0.2);
+            box-shadow: 0 0 15px rgba(255, 45, 120, 0.05);
+        }
+        .neon-glass-secondary {
+            backdrop-filter: blur(12px);
+            background: rgba(20, 20, 34, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+        }
+        .pulse-glow {
+            animation: pulse-animation 2s infinite ease-in-out;
+            box-shadow: 0 0 10px #ff2d78;
+        }
+        @keyframes pulse-animation {
+            0% { opacity: 0.6; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.6; transform: scale(0.95); }
+        }
+        .accent-bar {
+            height: 2px;
+            background: linear-gradient(90deg, #ff2d78 0%, transparent 100%);
+        }
+        .neon-border-pink {
+            border: 1px solid rgba(255, 45, 120, 0.3);
+        }
+        .neon-text-pink {
+            color: #ff2d78;
+            text-shadow: 0 0 8px rgba(255, 45, 120, 0.4);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined {
+            font-variation-settings: 'wght' 200;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden min-h-screen">
+<!-- TopAppBar component -->
+<header class="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30 flex justify-between items-center px-margin-mobile py-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined neon-text-pink text-[28px]" style="font-variation-settings: 'FILL' 1, 'wght' 300;">clinical_notes</span>
+<h1 class="font-headline text-xl font-bold tracking-tight text-on-background">AidPulse <span class="neon-text-pink">AI</span></h1>
+</div>
+<button class="hover:bg-surface-container-high/50 transition-all duration-200 p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+</header>
+<main class="pt-24 pb-32">
+<!-- Hero Section -->
+<section class="px-margin-mobile py-lg flex flex-col gap-lg">
+<div class="space-y-sm">
+<h2 class="font-headline text-3xl font-bold text-on-background tracking-tight leading-tight">
+                AI-Powered Precision for Every <span class="text-secondary">Shift</span>
+</h2>
+<p class="font-body text-on-surface-variant leading-relaxed max-w-sm">
+                Streamline charting, diagnostics, and patient care with AidPulse AI.
+            </p>
+</div>
+<button class="w-full h-14 bg-primary text-on-primary font-headline font-semibold rounded-xl active:scale-95 transition-all duration-150 shadow-[0_0_20px_rgba(255,45,120,0.3)] flex items-center justify-center gap-xs">
+            Go on Duty
+            <span class="material-symbols-outlined text-[20px] animate-pulse">bolt</span>
+</button>
+</section>
+<!-- Quick Actions Grid -->
+<section class="px-margin-mobile mb-xl">
+<h3 class="font-label text-xs text-secondary uppercase tracking-[0.2em] mb-sm opacity-80">Quick Actions</h3>
+<div class="grid grid-cols-2 gap-sm">
+<!-- Action Card 1 -->
+<div class="neon-glass-secondary rounded-xl p-md flex flex-col items-center text-center gap-sm hover:bg-secondary/10 transition-all active:scale-95 group">
+<div class="w-14 h-14 rounded-full border border-secondary/30 flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all">
+<span class="material-symbols-outlined text-secondary text-2xl">mic</span>
+</div>
+<span class="font-label text-sm text-on-surface">Dictate Notes</span>
+</div>
+<!-- Action Card 2 -->
+<div class="neon-glass-secondary rounded-xl p-md flex flex-col items-center text-center gap-sm hover:bg-secondary/10 transition-all active:scale-95 group">
+<div class="w-14 h-14 rounded-full border border-secondary/30 flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all">
+<span class="material-symbols-outlined text-secondary text-2xl">medication</span>
+</div>
+<span class="font-label text-sm text-on-surface">Meds Checker</span>
+</div>
+<!-- Action Card 3 -->
+<div class="neon-glass-secondary rounded-xl p-md flex flex-col items-center text-center gap-sm hover:bg-secondary/10 transition-all active:scale-95 group">
+<div class="w-14 h-14 rounded-full border border-secondary/30 flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all">
+<span class="material-symbols-outlined text-secondary text-2xl">lab_research</span>
+</div>
+<span class="font-label text-sm text-on-surface">Lab Analysis</span>
+</div>
+<!-- Action Card 4 -->
+<div class="neon-glass-secondary rounded-xl p-md flex flex-col items-center text-center gap-sm hover:bg-secondary/10 transition-all active:scale-95 group">
+<div class="w-14 h-14 rounded-full border border-secondary/30 flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(0,255,204,0.3)] transition-all">
+<span class="material-symbols-outlined text-secondary text-2xl">monitoring</span>
+</div>
+<span class="font-label text-sm text-on-surface">Insights</span>
+</div>
+</div>
+</section>
+<!-- Live Insights Feed -->
+<section class="mb-xl">
+<div class="px-margin-mobile flex justify-between items-center mb-sm">
+<h3 class="font-label text-xs text-primary uppercase tracking-[0.2em] opacity-80">Live Insights</h3>
+<div class="flex items-center gap-xs">
+<div class="w-1.5 h-1.5 rounded-full bg-primary pulse-glow"></div>
+<span class="font-label text-[10px] text-primary">REAL-TIME</span>
+</div>
+</div>
+<div class="accent-bar mb-md"></div>
+<div class="flex overflow-x-auto gap-sm px-margin-mobile no-scrollbar pb-xs">
+<!-- Insight 1: Urgent -->
+<div class="min-w-[300px] neon-glass rounded-xl p-md flex flex-col gap-md border-l-4 border-l-primary">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-xs text-primary">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label text-xs font-bold uppercase tracking-widest">URGENT</span>
+</div>
+</div>
+<div class="space-y-base">
+<p class="font-headline text-lg font-semibold text-on-surface leading-tight">Bed 4: Vitals trending low</p>
+<p class="font-body text-sm text-on-surface-variant">BP 90/60. Pulse 105. AI predicts <span class="text-primary font-bold">85% risk</span> of sepsis shock within 2 hours.</p>
+</div>
+<div class="flex gap-sm pt-base">
+<button class="flex-1 font-label text-xs font-bold text-on-primary bg-primary py-3 rounded-lg active:scale-95 transition-transform shadow-[0_0_10px_rgba(255,45,120,0.2)]">View Charts</button>
+<button class="flex-1 font-label text-xs font-bold text-on-surface border border-outline-variant py-3 rounded-lg hover:bg-surface-container-high transition-colors active:scale-95">Acknowledge</button>
+</div>
+</div>
+<!-- Insight 2: Routine -->
+<div class="min-w-[300px] neon-glass rounded-xl p-md flex flex-col gap-md border-l-4 border-l-secondary">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-xs text-secondary">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="font-label text-xs font-bold uppercase tracking-widest">UPDATE</span>
+</div>
+</div>
+<div class="space-y-base">
+<p class="font-headline text-lg font-semibold text-on-surface leading-tight">Shift Handover Ready</p>
+<p class="font-body text-sm text-on-surface-variant">Summary of 12 patients generated. Ready for review and digital signature.</p>
+</div>
+<div class="pt-base">
+<button class="font-label text-xs text-secondary font-bold hover:underline tracking-wider">REVIEW SUMMARY</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="px-margin-mobile py-lg border-y border-outline-variant/20 bg-surface-container-lowest/50">
+<div class="flex flex-col items-center text-center gap-lg">
+<div class="grid grid-cols-2 gap-lg w-full">
+<div class="flex flex-col items-center gap-sm">
+<div class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<span class="font-label text-[10px] text-on-surface-variant font-medium uppercase tracking-widest">HIPAA Compliant</span>
+</div>
+<div class="flex flex-col items-center gap-sm">
+<div class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">lock</span>
+</div>
+<span class="font-label text-[10px] text-on-surface-variant font-medium uppercase tracking-widest">Enterprise Security</span>
+</div>
+</div>
+<p class="font-body text-sm text-on-surface-variant/80 italic max-w-xs leading-relaxed">
+                "AidPulse acts as my second set of eyes during critical night shifts." 
+                <br/><span class="not-italic font-headline font-semibold text-on-surface mt-2 block">— Dr. Sarah Chen, ICU Lead</span>
+</p>
+</div>
+</section>
+<!-- Footer component -->
+<footer class="w-full px-margin-mobile py-lg flex flex-col items-center gap-md bg-background border-t border-outline-variant/10">
+<div class="font-headline text-lg font-bold text-on-background">AidPulse <span class="neon-text-pink">AI</span></div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Terms</a>
+<a class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Compliance</a>
+<a class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest hover:text-primary transition-colors" href="#">Security</a>
+</div>
+<p class="text-on-surface-variant/50 font-body text-[10px] text-center tracking-tight">© 2024 AidPulse AI. HIPAA Compliant Enterprise Grade.</p>
+</footer>
+</main>
+<!-- BottomNavBar component -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-background/90 backdrop-blur-xl border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-primary rounded-xl px-4 py-1.5 active:scale-90 transition-all duration-150 relative" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label text-[10px] uppercase font-bold mt-0.5">Home</span>
+<div class="absolute -bottom-1 w-1 h-1 rounded-full bg-primary shadow-[0_0_5px_#ff2d78]"></div>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label text-[10px] uppercase mt-0.5">Patients</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label text-[10px] uppercase mt-0.5">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label text-[10px] uppercase mt-0.5">Alerts</span>
+</a>
+</nav>
+</body></html>
