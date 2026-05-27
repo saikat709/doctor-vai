@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { db } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { selectedSymptoms, notes, consultationId } = await req.json();
+    const { selectedSymptoms, notes } = await req.json();
 
     if (!selectedSymptoms || selectedSymptoms.length === 0) {
       return NextResponse.json(
@@ -76,17 +69,6 @@ Rules:
 
     if (!parsed.diagnoses || !Array.isArray(parsed.diagnoses)) {
       throw new Error("Invalid response schema from model");
-    }
-
-    if (consultationId) {
-      await db.diseaseAssessment.create({
-        data: {
-          consultationId,
-          symptoms: selectedSymptoms,
-          notes: notes ?? "",
-          result: parsed,
-        },
-      });
     }
 
     return NextResponse.json(parsed);

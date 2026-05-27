@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Sora, Space_Grotesk } from "next/font/google";
+import { Inter, Sora, Space_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -31,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", inter.variable, sora.variable, spaceGrotesk.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col bg-[#090912] text-[#e8e0f0] font-sans">
         {children}

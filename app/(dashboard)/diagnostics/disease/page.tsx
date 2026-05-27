@@ -163,7 +163,7 @@ export default function DiseaseDetectionPage() {
         <Textarea
           placeholder="e.g. Dry hacking cough for 10 days, persistent evening fevers, significant unexplained weight loss over 3 weeks..."
           value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNotes(e.target.value)}
           rows={4}
           className="resize-none text-sm"
         />
