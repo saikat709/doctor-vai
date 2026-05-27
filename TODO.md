@@ -1,8 +1,8 @@
 # Project TODO List
 
-- [ ] TODO 1: Project Initialization & Theme Setup
-- [ ] TODO 2: Core Layout & Navigation (Sidebar + Floating AI Button)
-- [ ] TODO 3: Landing Page Implementation
+- [x] TODO 1: Project Initialization & Theme Setup
+- [x] TODO 2: Core Layout & Navigation (Sidebar + Floating AI Button)
+- [x] TODO 3: Landing Page Implementation
 - [ ] TODO 4: Treatment Guidance Feature (JSON integration)
 - [ ] TODO 5: Medicine Interaction Warning System (Deepseek Integration)
 - [ ] TODO 6: Risk Detection Interface (Pre-treatment screening)

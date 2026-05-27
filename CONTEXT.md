@@ -5,13 +5,17 @@ An AI-powered decision-support tool designed for frontline field health workers 
 
 ## Tech Stack
 *   **Frontend/Backend:** Next.js (App Router), Tailwind CSS, Shadcn/UI, Lucide React (Icons), Framer Motion (Animations).
+*   **Auth:** Auth.js (NextAuth v5 beta) with Prisma adapter and credentials flow placeholder.
 *   **AI/LLM:** Deepseek API (simulated or direct via SDK) / RAG system for private data.
 *   **Local Storage/State:** LocalStorage / React Context (optimized for offline-first capability where possible).
 
 ## Architecture & Layout
 1.  **Landing Page:** Hero section, feature highlights, and a prominent "Go to Dashboard" button (handling auth/protected states).
-2.  **Main Layout:** A persistent left sidebar for navigation across core features, with a floating "Ask AI" chat icon available on all dashboard views.
+2.  **Main Layout:** A responsive dashboard shell with a dark-slate left sidebar, active route highlighting, and a fixed bottom-right Ask AI FAB that opens a right-side drawer.
 3.  **Data Sources:** Local files like `/lib/procedures.json` containing standardized medical guidance steps.
+
+## Status Updates
+*   Added Auth.js scaffolding, a protected `/dashboard/*` workspace shell, and a refreshed medical landing page.
 
 ## Core Features
 1.  **Treatment Guidance:** Interactive, animated step-by-step procedures categorized with visual cards.
