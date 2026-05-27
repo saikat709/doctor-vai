@@ -35,6 +35,16 @@ export function Sidebar({ className, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Determine the single best-matching nav item for the current pathname.
+  // Pick the nav item with the longest href that matches the start of the pathname.
+  const activeHref = (() => {
+    if (!pathname) return null;
+    const matches = navItems
+      .filter((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
+      .sort((a, b) => b.href.length - a.href.length);
+    return matches.length > 0 ? matches[0].href : null;
+  })();
+
   return (
     <>
       <button
@@ -72,7 +82,7 @@ export function Sidebar({ className, onNavigate }: SidebarProps) {
         <nav className="flex flex-1 flex-col gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const active = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+            const active = activeHref === item.href;
 
             return (
               <Link
