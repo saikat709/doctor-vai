@@ -28,7 +28,7 @@ export function FloatingAiChat() {
         </button>
       </div>
 
-      <SheetContent side="right" className="w-full max-w-[400px] border-l border-slate-200">
+      <SheetContent side="right" className="w-full max-w-100 border-l border-slate-200">
         <SheetHeader>
           <div className="flex items-start justify-between gap-4">
             <div>
