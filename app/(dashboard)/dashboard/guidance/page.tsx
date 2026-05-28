@@ -64,10 +64,10 @@ export default function GuidancePage() {
             Treatment Guidance
           </p>
           <h1 className="text-2xl font-semibold text-slate-900">Procedural workflow tracker</h1>
-          <p className="max-w-2xl text-sm text-slate-600">
+          {/* <p className="max-w-2xl text-sm text-slate-600">
             Browse clinical procedures from the local catalog, then open a checklist view with
             step-by-step confirmation and animated progress tracking.
-          </p>
+          </p> */}
         </div>
 
         {selectedProcedure ? (
@@ -95,13 +95,13 @@ export default function GuidancePage() {
               />
             </label>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="scrollbar-none flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:justify-end">
               {categoryOrder.map((category) => (
                 <button
                   key={category}
                   type="button"
                   onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition ${
                     activeCategory === category
                       ? "bg-sky-600 text-white shadow-sm"
                       : "border border-slate-200 bg-white text-slate-600 hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700"

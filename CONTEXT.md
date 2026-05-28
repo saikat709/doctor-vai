@@ -14,7 +14,7 @@ An AI-powered decision-support tool designed for frontline field health workers 
 ## Architecture & Layout
 
 1.  **Landing Page:** Auth-aware root entry with a medical hero, offline/privacy/decision-support message pillars, and a prominent "Go to Dashboard" button.
-2.  **Main Layout:** A responsive dashboard shell with a dark-slate left sidebar, active route highlighting, and a fixed bottom-right Ask AI FAB that opens a right-side drawer.
+2.  **Main Layout:** A responsive dashboard shell with a dark-slate left sidebar, active route highlighting, and a fixed bottom-right Ask AI FAB that opens the dedicated Ask AI page.
 3.  **Data Sources:** Local files like `/lib/procedures.json` containing standardized medical guidance steps.
 4.  **Risk Triage:** Guardrailed diagnostics payloads routed through `/api/diagnostics/risk`, returning only attentionLevel, metrics, and precautions arrays without definitive diagnosis.
 

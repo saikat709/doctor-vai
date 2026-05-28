@@ -24,6 +24,27 @@ type InteractionResult = {
   alternatives: string[];
 };
 
+function normalizeAlternatives(alternatives: unknown): string[] {
+  if (Array.isArray(alternatives)) {
+    return alternatives.map((alternative) => String(alternative).trim()).filter(Boolean);
+  }
+
+  if (typeof alternatives === "string") {
+    return alternatives
+      .split(/\r?\n+/)
+      .map((alternative) => alternative.trim())
+      .filter(Boolean);
+  }
+
+  if (alternatives && typeof alternatives === "object") {
+    return Object.values(alternatives as Record<string, unknown>)
+      .map((alternative) => String(alternative).trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 const verdictStyles: Record<
   Verdict,
   { badge: string; panel: string; label: string }
@@ -279,14 +300,18 @@ export default function InteractionsPage() {
                     Suggested alternatives
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-slate-700">
-                    {result.alternatives.map((alternative) => (
-                      <li key={alternative} className="flex items-start gap-2">
-                        <span className="mt-1 rounded-full bg-slate-900 p-1 text-white">
-                          <Check className="h-3 w-3" />
-                        </span>
-                        <span>{alternative}</span>
-                      </li>
-                    ))}
+                    {normalizeAlternatives(result.alternatives).length > 0 ? (
+                      normalizeAlternatives(result.alternatives).map((alternative) => (
+                        <li key={alternative} className="flex items-start gap-2">
+                          <span className="mt-1 rounded-full bg-slate-900 p-1 text-white">
+                            <Check className="h-3 w-3" />
+                          </span>
+                          <span>{alternative}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-slate-500">No alternatives returned.</li>
+                    )}
                   </ul>
                 </div>
               </div>
