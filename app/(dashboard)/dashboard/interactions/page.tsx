@@ -111,6 +111,7 @@ export default function InteractionsPage() {
       }
 
       const data = (await response.json()) as InteractionResult;
+      console.log(data);
       setResult(data);
     } catch (submitError) {
       setError(
