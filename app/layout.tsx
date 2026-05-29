@@ -1,8 +1,8 @@
-import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Inter, Sora, Space_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toast";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Doctor Vai | AidPulse AI",
+  title: "Doctor Vai",
   description:
     "A focused AI companion for clinical shifts, fast handovers, and safer care decisions.",
 };
@@ -40,12 +40,11 @@ export default function RootLayout({
         sora.variable,
         spaceGrotesk.variable,
         "font-sans",
-        geist.variable
       )}
     >
       <body className="min-h-full bg-slate-50 text-slate-900 font-sans">
         {children}
-        <Toaster richColors />
+        <Toaster />
       </body>
     </html>
   );
