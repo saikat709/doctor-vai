@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ingestKnowledgeDocument } from "@/lib/rag";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,18 +15,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
     }
 
-    // Stub: wire to Prisma + pgvector when DB is ready:
-    // 1. prisma.knowledgeDocument.create({ data: { name, size, status: "Processing" } })
-    // 2. Extract text via pdf-parse or utf-8 buffer
-    // 3. Chunk + embed via OpenAI text-embedding-3-small
-    // 4. Store chunks in DocumentChunk table
-    // 5. Update status to "Indexed"
-
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // simulate processing
+    const result = await ingestKnowledgeDocument(file);
 
     return NextResponse.json({
       success: true,
-      document: { name: file.name, size: file.size, status: "Indexed" },
+      document: {
+        id: result.document.id,
+        name: result.document.fileName,
+        size: result.document.fileSize,
+        status: result.document.status,
+      },
+      chunkCount: result.chunkCount,
     });
   } catch (error) {
     console.error("[RAG_UPLOAD_ERROR]", error);
