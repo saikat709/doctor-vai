@@ -8,7 +8,7 @@ An AI-powered decision-support tool designed for frontline field health workers 
 
 - **Frontend/Backend:** Next.js (App Router), Tailwind CSS, Shadcn/UI, Lucide React (Icons), Framer Motion (Animations).
 - **Auth:** Auth.js (NextAuth v5 beta) with Prisma adapter and credentials flow placeholder.
-- **AI/LLM:** Deepseek API (simulated or direct via SDK) / RAG system for private data.
+- **AI/LLM:** Deepseek API (direct via langraph sdk) / RAG system for private data.
 - **Local Storage/State:** LocalStorage / React Context (optimized for offline-first capability where possible).
 
 ## Architecture & Layout
