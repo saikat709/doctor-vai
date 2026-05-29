@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 
 export async function PATCH(
   req: NextRequest,
@@ -14,17 +15,22 @@ export async function PATCH(
       );
     }
 
-    // TODO: Connect to Prisma when database is ready
-    // await prisma.vaccinationReminder.update({
-    //   where: { id },
-    //   data: { status: "Completed" },
-    // });
-
-    return NextResponse.json({
-      success: true,
-      message: "Reminder marked as completed",
-      id,
+    const updated = await db.vaccinationReminder.update({
+      where: { id },
+      data: { status: "Completed" },
+    }).catch((e) => {
+      // Prisma returns P2025 when the record is not found
+      if ((e as any)?.code === "P2025") {
+        return null;
+      }
+      throw e;
     });
+
+    if (!updated) {
+      return NextResponse.json({ error: "Reminder not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, reminder: updated });
   } catch (error) {
     console.error("[REMINDERS_COMPLETE_ERROR]", error);
 

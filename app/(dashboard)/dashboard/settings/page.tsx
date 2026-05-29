@@ -69,7 +69,7 @@ const statusStyles: Record<DocStatus, string> = {
   Processing:
     "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   Indexed:
-    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    "bg-gray-600 text-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400",
   Failed:
     "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400",
 };
@@ -202,25 +202,7 @@ export default function SettingsPage() {
     persistDocs(updated);
   };
 
-  const startUploadStages = (id: string) => {
-    const stages = [
-      { stage: "Reading file", progress: 18 },
-      { stage: "Chunking text", progress: 42 },
-      { stage: "Embedding chunks", progress: 72 },
-      { stage: "Saving to knowledge base", progress: 88 },
-    ];
-
-    const timers = stages.map((step, index) =>
-      window.setTimeout(() => {
-        updateDoc(id, {
-          stage: step.stage,
-          progress: step.progress,
-        });
-      }, 350 + index * 650)
-    );
-
-    return timers;
-  };
+  // Removed simulated upload stages — UI now shows honest states
 
   const processFile = async (file: File) => {
     const validationError = validateFile(file);
@@ -244,9 +226,8 @@ export default function SettingsPage() {
 
     persistDocs([...docsRef.current, newDoc]);
 
-    const progressTimers = startUploadStages(newDoc.id);
+    // Honest UI: show Uploading while request is in-flight.
     const timeoutId = window.setTimeout(() => {
-      progressTimers.forEach((timer) => window.clearTimeout(timer));
       updateDoc(newDoc.id, {
         status: "Failed",
         progress: 100,
@@ -268,8 +249,6 @@ export default function SettingsPage() {
 
       finished = true;
       window.clearTimeout(timeoutId);
-      progressTimers.forEach((timer) => window.clearTimeout(timer));
-
       if (response.ok) {
         updateDoc(newDoc.id, {
           status: "Indexed",
@@ -290,10 +269,7 @@ export default function SettingsPage() {
     } catch {
       if (!finished) {
         window.clearTimeout(timeoutId);
-        progressTimers.forEach((timer) => window.clearTimeout(timer));
       }
-
-      progressTimers.forEach((timer) => window.clearTimeout(timer));
 
       updateDoc(newDoc.id, {
         status: "Failed",

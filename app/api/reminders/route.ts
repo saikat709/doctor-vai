@@ -19,6 +19,7 @@ export async function GET() {
       },
     });
 
+    console.log("[REMINDERS_LIST]", reminders);
     return NextResponse.json({
       records: reminders.map((reminder) => ({
         id: reminder.id,
