@@ -135,17 +135,16 @@ export async function ingestKnowledgeDocument(file: File) {
       fileName: file.name,
       fileSize: file.size,
       status: "Processing",
-      chunks: {
-        create: chunks.map((chunk, chunkIndex) => ({
-          chunkIndex,
-          content: chunk,
-          embedding: generateEmbedding(chunk) as Prisma.InputJsonValue,
-        })),
-      },
     },
-    include: {
-      chunks: true,
-    },
+  });
+
+  await db.documentChunk.createMany({
+    data: chunks.map((chunk, chunkIndex) => ({
+      documentId: document.id,
+      chunkIndex,
+      content: chunk,
+      embedding: generateEmbedding(chunk) as Prisma.InputJsonValue,
+    })),
   });
 
   const updated = await db.knowledgeDocument.update({
@@ -159,7 +158,7 @@ export async function ingestKnowledgeDocument(file: File) {
 
   return {
     document: updated,
-    chunkCount: document.chunks.length,
+    chunkCount: chunks.length,
   };
 }
 

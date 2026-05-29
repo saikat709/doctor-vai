@@ -10,12 +10,96 @@ import {
   Bot,
   User,
 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
+
+const markdownComponents = {
+  p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className={cn("whitespace-pre-wrap text-sm leading-7", className)} {...props} />
+  ),
+  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className={cn("list-disc space-y-2 pl-5 text-sm leading-7", className)} {...props} />
+  ),
+  ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol className={cn("list-decimal space-y-2 pl-5 text-sm leading-7", className)} {...props} />
+  ),
+  li: ({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className={cn("pl-1", className)} {...props} />
+  ),
+  h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1 className={cn("text-lg font-semibold text-slate-950", className)} {...props} />
+  ),
+  h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 className={cn("text-base font-semibold text-slate-950", className)} {...props} />
+  ),
+  h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3 className={cn("text-sm font-semibold text-slate-950", className)} {...props} />
+  ),
+  blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
+    <blockquote
+      className={cn(
+        "border-l-4 border-sky-200 pl-4 text-sm italic text-slate-600",
+        className
+      )}
+      {...props}
+    />
+  ),
+  a: ({ className, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a
+      className={cn("font-medium text-sky-700 underline decoration-sky-300 underline-offset-2", className)}
+      target="_blank"
+      rel="noreferrer"
+      {...props}
+    />
+  ),
+  code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    const isInlineCode = !className?.includes("language-");
+
+    if (isInlineCode) {
+      return (
+        <code
+          className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[0.85em] text-slate-900"
+          {...props}
+        >
+          {children}
+        </code>
+      );
+    }
+
+    return (
+      <code
+        className={cn(
+          "block overflow-x-auto rounded-2xl bg-slate-950 px-4 py-3 font-mono text-xs leading-6 text-slate-100",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </code>
+    );
+  },
+  pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre className={cn("overflow-x-auto rounded-2xl", className)} {...props} />
+  ),
+  table: ({ className, ...props }: React.TableHTMLAttributes<HTMLTableElement>) => (
+    <table className={cn("my-4 w-full border-collapse text-sm", className)} {...props} />
+  ),
+  th: ({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+    <th
+      className={cn("border border-slate-200 bg-slate-50 px-3 py-2 text-left font-semibold", className)}
+      {...props}
+    />
+  ),
+  td: ({ className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+    <td className={cn("border border-slate-200 px-3 py-2 align-top", className)} {...props} />
+  ),
+};
 
 type ChatMessage = {
   id: string;
@@ -224,9 +308,15 @@ export default function AskAiPage() {
                         : "border border-slate-200 bg-white text-slate-800"
                     )}
                   >
-                    <p className="whitespace-pre-wrap text-sm leading-7">
-                      {message.content}
-                    </p>
+                    {message.role === "assistant" ? (
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                        {message.content}
+                      </ReactMarkdown>
+                    ) : (
+                      <p className="whitespace-pre-wrap text-sm leading-7">
+                        {message.content}
+                      </p>
+                    )}
 
                     {/* TOOLS */}
                     {message.role === "assistant" &&
@@ -337,7 +427,7 @@ export default function AskAiPage() {
                     setInput(event.target.value)
                   }
                   placeholder="Ask about uploaded documents..."
-                  className="max-h-40 min-h-[60px] resize-none border-0 bg-transparent px-2 py-2 text-sm shadow-none focus-visible:ring-0"
+                  className="max-h-40 min-h-15 resize-none border-0 bg-transparent px-2 py-2 text-sm shadow-none focus-visible:ring-0"
                 />
 
                 <div className="mt-3 flex items-center justify-end">

@@ -57,6 +57,7 @@ interface KnowledgeDoc {
   size: string;
   status: DocStatus;
   progress?: number;
+  stage?: string;
 }
 
 const CACHE_LIMITS = ["100 MB", "500 MB", "1 GB"];
@@ -201,23 +202,24 @@ export default function SettingsPage() {
     persistDocs(updated);
   };
 
-  const simulateProgress = (id: string) => {
-    let progress = 0;
+  const startUploadStages = (id: string) => {
+    const stages = [
+      { stage: "Reading file", progress: 18 },
+      { stage: "Chunking text", progress: 42 },
+      { stage: "Embedding chunks", progress: 72 },
+      { stage: "Saving to knowledge base", progress: 88 },
+    ];
 
-    const interval = setInterval(() => {
-      progress += Math.random() * 18;
+    const timers = stages.map((step, index) =>
+      window.setTimeout(() => {
+        updateDoc(id, {
+          stage: step.stage,
+          progress: step.progress,
+        });
+      }, 350 + index * 650)
+    );
 
-      if (progress >= 92) {
-        clearInterval(interval);
-        return;
-      }
-
-      updateDoc(id, {
-        progress: Math.floor(progress),
-      });
-    }, 350);
-
-    return interval;
+    return timers;
   };
 
   const processFile = async (file: File) => {
@@ -237,11 +239,22 @@ export default function SettingsPage() {
       size: formatSize(file.size),
       status: "Processing",
       progress: 0,
+      stage: "Uploading",
     };
 
     persistDocs([...docsRef.current, newDoc]);
 
-    const progressInterval = simulateProgress(newDoc.id);
+    const progressTimers = startUploadStages(newDoc.id);
+    const timeoutId = window.setTimeout(() => {
+      progressTimers.forEach((timer) => window.clearTimeout(timer));
+      updateDoc(newDoc.id, {
+        status: "Failed",
+        progress: 100,
+        stage: "Upload timed out",
+      });
+      toast.error(`Upload timed out for ${file.name}.`);
+    }, 120000);
+    let finished = false;
 
     try {
       const formData = new FormData();
@@ -253,12 +266,15 @@ export default function SettingsPage() {
         body: formData,
       });
 
-      clearInterval(progressInterval);
+      finished = true;
+      window.clearTimeout(timeoutId);
+      progressTimers.forEach((timer) => window.clearTimeout(timer));
 
       if (response.ok) {
         updateDoc(newDoc.id, {
           status: "Indexed",
           progress: 100,
+          stage: "Indexed successfully",
         });
 
         toast.success(`${file.name} indexed successfully.`);
@@ -266,16 +282,23 @@ export default function SettingsPage() {
         updateDoc(newDoc.id, {
           status: "Failed",
           progress: 100,
+          stage: "Upload failed",
         });
 
         toast.error(`Failed to index ${file.name}.`);
       }
     } catch {
-      clearInterval(progressInterval);
+      if (!finished) {
+        window.clearTimeout(timeoutId);
+        progressTimers.forEach((timer) => window.clearTimeout(timer));
+      }
+
+      progressTimers.forEach((timer) => window.clearTimeout(timer));
 
       updateDoc(newDoc.id, {
         status: "Failed",
         progress: 100,
+        stage: "Upload failed",
       });
 
       toast.error(`Error processing ${file.name}.`);
@@ -318,6 +341,7 @@ export default function SettingsPage() {
     updateDoc(id, {
       status: "Processing",
       progress: 0,
+      stage: "Uploading",
     });
 
     toast.info("Please upload the document again.");
@@ -330,10 +354,10 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6">
-      <div className="space-y-6">
+    <div className="mx-auto max-w-7xl px-3 py-4 lg:px-4">
+      <div className="space-y-4">
         {/* HEADER */}
-        <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 p-8 text-white shadow-xl">
+        <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 p-4 text-white shadow-xl">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-sky-200 backdrop-blur">
@@ -345,11 +369,11 @@ export default function SettingsPage() {
                 Manage your indexed documents
               </h1>
 
-              <p className="mt-3 text-sm leading-7 text-slate-300">
+              {/* <p className="mt-3 text-sm leading-7 text-slate-300">
                 Upload files, monitor indexing progress, manage local
                 storage usage, and maintain your searchable knowledge
                 base.
-              </p>
+              </p> */}
             </div>
 
             <div className="grid w-full max-w-md grid-cols-3 gap-3">
@@ -606,8 +630,8 @@ export default function SettingsPage() {
 
                             {doc.status === "Processing" && (
                               <div className="mt-3">
-                                <div className="mb-1 flex items-center justify-between text-[11px] text-slate-500">
-                                  <span>Processing...</span>
+                                <div className="mb-1 flex items-center justify-between text-[11px] text-slate-200">
+                                  <span>{doc.stage ?? "Processing..."}</span>
 
                                   <span>
                                     {doc.progress ?? 0}%
