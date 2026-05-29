@@ -170,19 +170,42 @@ export default function RemindersPage() {
   };
 
   useEffect(() => {
-    setIsRecordsLoading(true);
+    let isActive = true;
+
     const fetchRecords = async () => {
-      const res = await fetch("/api/reminders");
-      const data = await res.json();
-      setRecords(data.records);
+      setIsRecordsLoading(true);
+
+      try {
+        const res = await fetch("/api/reminders");
+
+        if (!res.ok) {
+          throw new Error(`Failed to load records (${res.status})`);
+        }
+
+        const data = await res.json();
+
+        if (isActive) {
+          setRecords(Array.isArray(data.records) ? data.records : []);
+        }
+      } catch (err) {
+        console.error(err);
+
+        if (isActive) {
+          toast.error("Failed to load records.");
+          setRecords([]);
+        }
+      } finally {
+        if (isActive) {
+          setIsRecordsLoading(false);
+        }
+      }
     };
-    try {
-      fetchRecords();
-    } catch (err) {
-      toast.error("Failed to load records.");
-    } finally {
-      setIsRecordsLoading(false);
-    }
+
+    void fetchRecords();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   return (
@@ -376,7 +399,9 @@ export default function RemindersPage() {
         <div className="rounded-xl border bg-card p-12 text-center">
           <Syringe className="mx-auto h-8 w-8 text-muted-foreground/40 mb-3" />
           <p className="text-sm text-muted-foreground">
-            {records.length === 0
+            {isRecordsLoading
+              ? "Loading records..."
+              : records.length === 0
               ? "No records yet. Log the first immunization entry above."
               : "No records match this filter."}
           </p>
