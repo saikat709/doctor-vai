@@ -1,0 +1,51 @@
+import type { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+
+export const authConfig = {
+  pages: {
+    signIn: "/login",
+  },
+  callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+
+      if (isOnDashboard) {
+        return isLoggedIn;
+      }
+      return true;
+    },
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = (user as { role?: string }).role;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        (session.user as { role?: string }).role = token.role as string;
+      }
+      return session;
+    },
+  },
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        if (
+          credentials?.email === "worker@health.gov" &&
+          credentials?.password === "password123"
+        ) {
+          return {
+            id: "1",
+            name: "Field Medic Saikat",
+            email: "worker@health.gov",
+            role: "HealthWorker",
+          };
+        }
+        return null;
+      },
+    }),
+  ],
+} satisfies NextAuthConfig;

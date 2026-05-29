@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: doctor-vai-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: doctor_vai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - doctor_vai_data:/var/lib/postgresql/data
+
+volumes:
+  doctor_vai_data:

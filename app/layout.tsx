@@ -2,25 +2,20 @@ import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Inter, Sora, Space_Grotesk, Geist } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import { Toaster } from "@/components/ui/toast";
 
 const inter = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
 const sora = Sora({
-  variable: "--font-sora",
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+  variable: "--font-label",
   subsets: ["latin"],
 });
 
@@ -48,7 +43,7 @@ export default function RootLayout({
         geist.variable
       )}
     >
-      <body className="min-h-full flex flex-col bg-[#090912] text-[#e8e0f0] font-sans">
+      <body className="min-h-full bg-slate-50 text-slate-900 font-sans">
         {children}
         <Toaster richColors />
       </body>
