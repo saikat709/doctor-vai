@@ -64,10 +64,6 @@ export default function GuidancePage() {
             Treatment Guidance
           </p>
           <h1 className="text-2xl font-semibold text-slate-900">Procedural workflow tracker</h1>
-          {/* <p className="max-w-2xl text-sm text-slate-600">
-            Browse clinical procedures from the local catalog, then open a checklist view with
-            step-by-step confirmation and animated progress tracking.
-          </p> */}
         </div>
 
         {selectedProcedure ? (

@@ -13,9 +13,8 @@ export async function POST(req: NextRequest) {
 
     const symptomList = selectedSymptoms.join(", ");
 
-    const prompt = `You are a clinical decision support system. A patient presents with the following symptoms: ${symptomList}.${
-      notes ? ` Additional clinical notes: ${notes}` : ""
-    }
+    const prompt = `
+You are a clinical decision support system. A patient presents with the following symptoms: ${symptomList}. ${ notes ? ` Additional clinical notes: ${notes}` : ""}
 
 Provide a differential diagnosis ranked by likelihood. Respond with ONLY a valid JSON object — no markdown, no explanation, no preamble.
 
@@ -34,7 +33,8 @@ Rules:
 - Return 3 to 6 conditions maximum.
 - Rank from most to least likely.
 - nextDiagnosticTest must be a specific actionable test (lab, imaging, or clinical).
-- Never state a definitive diagnosis. Use probabilistic clinical language.`;
+- Never state a definitive diagnosis. Use probabilistic clinical language.
+`;
 
     const response = await fetch(
       "https://api.deepseek.com/v1/chat/completions",
