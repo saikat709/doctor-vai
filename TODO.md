@@ -19,3 +19,4 @@
     cloudflared tunnel --url http://localhost:11434
     ```
 - add pg_cron for vaccination scheduled email send
+- use an open source model for embedding, not hash system 
