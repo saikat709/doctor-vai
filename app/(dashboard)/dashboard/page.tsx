@@ -6,6 +6,39 @@ function formatDayKey(date: Date) {
   return date.toISOString().slice(0, 10);
 }
 
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`${label} timed out after ${timeoutMs}ms`));
+    }, timeoutMs);
+
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
+  });
+}
+
+async function withTimeoutFallback<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  label: string,
+  fallback: T
+): Promise<T> {
+  try {
+    return await withTimeout(promise, timeoutMs, label);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown query error";
+    console.warn(`[DASHBOARD_QUERY_WARN] ${label}: ${message}. Falling back to safe default.`);
+    return fallback;
+  }
+}
+
 export default async function DashboardHomePage() {
   const now = new Date();
   const sevenDaysAgo = new Date(now);
@@ -16,7 +49,7 @@ export default async function DashboardHomePage() {
   thirtyDaysAgo.setDate(now.getDate() - 29);
   thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-  const [recentSessions, riskAssessments, sessionsCount, diseaseCount, medicineCount, remindersCount, documentsCount] = await Promise.all([
+  const recentSessionsPromise = withTimeoutFallback(
     db.consultationSession.findMany({
       where: {
         createdAt: {
@@ -30,11 +63,23 @@ export default async function DashboardHomePage() {
         createdAt: "asc",
       },
     }),
+    8000,
+    "consultationSession.findMany(recent)",
+    []
+  );
+
+  const riskAssessmentsPromise = withTimeoutFallback(
     db.riskAssessment.findMany({
       select: {
         attentionLevel: true,
       },
     }),
+    8000,
+    "riskAssessment.findMany",
+    []
+  );
+
+  const sessionsCountPromise = withTimeoutFallback(
     db.consultationSession.count({
       where: {
         createdAt: {
@@ -42,6 +87,12 @@ export default async function DashboardHomePage() {
         },
       },
     }),
+    8000,
+    "consultationSession.count",
+    0
+  );
+
+  const diseaseCountPromise = withTimeoutFallback(
     db.diseaseAssessment.count({
       where: {
         createdAt: {
@@ -49,6 +100,12 @@ export default async function DashboardHomePage() {
         },
       },
     }),
+    8000,
+    "diseaseAssessment.count",
+    0
+  );
+
+  const medicineCountPromise = withTimeoutFallback(
     db.medicineCheck.count({
       where: {
         createdAt: {
@@ -56,6 +113,12 @@ export default async function DashboardHomePage() {
         },
       },
     }),
+    8000,
+    "medicineCheck.count",
+    0
+  );
+
+  const remindersCountPromise = withTimeoutFallback(
     db.vaccinationReminder.count({
       where: {
         createdAt: {
@@ -63,6 +126,12 @@ export default async function DashboardHomePage() {
         },
       },
     }),
+    8000,
+    "vaccinationReminder.count",
+    0
+  );
+
+  const documentsCountPromise = withTimeoutFallback(
     db.knowledgeDocument.count({
       where: {
         createdAt: {
@@ -70,6 +139,19 @@ export default async function DashboardHomePage() {
         },
       },
     }),
+    8000,
+    "knowledgeDocument.count",
+    0
+  );
+
+  const [recentSessions, riskAssessments, sessionsCount, diseaseCount, medicineCount, remindersCount, documentsCount] = await Promise.all([
+    recentSessionsPromise,
+    riskAssessmentsPromise,
+    sessionsCountPromise,
+    diseaseCountPromise,
+    medicineCountPromise,
+    remindersCountPromise,
+    documentsCountPromise,
   ]);
 
   const consultationLabels: string[] = [];
