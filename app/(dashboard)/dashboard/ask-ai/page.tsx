@@ -225,95 +225,121 @@ export default function AskAiPage() {
   };
 
   return (
-    <div className="flex h-screen max-h-screen flex-col overflow-hidden bg-slate-50">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-transparent">
       {/* HEADER */}
-      <header className="shrink-0 border-b border-slate-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-              <Sparkles className="h-5 w-5" />
-            </div>
-
-            <div>
-              <h1 className="text-sm font-semibold text-slate-950 sm:text-base">
-                AI Knowledge Assistant
-              </h1>
-
-              <p className="text-xs text-slate-500">
-                Grounded document responses
-              </p>
-            </div>
+      <div className="flex shrink-0 items-center justify-between pb-4 border-b border-slate-100">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-500 text-white shadow-sm shadow-sky-500/20">
+            <Sparkles className="h-5 w-5 animate-pulse" />
           </div>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="rounded-xl"
-            onClick={resetChat}
-          >
-            <Trash2 className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">
-              Reset
-            </span>
-          </Button>
-        </div>
-      </header>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-base font-semibold text-slate-900">
+                AI Knowledge Assistant
+              </h1>
+              <Badge variant="secondary" className="bg-sky-50 text-sky-700 hover:bg-sky-100 border-none rounded-full px-2.5 py-0.5 text-[10px] font-medium">
+                RAG Engine
+              </Badge>
+            </div>
 
-      {/* ONLY THIS AREA SCROLLS */}
-      <div className="flex min-h-0 flex-1 flex-col">
+            <p className="text-xs text-slate-500">
+              Ask anything grounded in your uploaded knowledge base
+            </p>
+          </div>
+        </div>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="rounded-xl hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+          onClick={resetChat}
+        >
+          <Trash2 className="mr-2 h-4 w-4" />
+          <span className="hidden sm:inline">
+            Reset Chat
+          </span>
+        </Button>
+      </div>
+
+      {/* MESSAGES & WELCOME SCREEN CONTAINER */}
+      <div className="flex-grow flex-1 min-h-0 w-full overflow-hidden flex flex-col my-4">
         <div
           ref={messagesRef}
-          className="flex-1 overflow-y-auto"
+          className="flex-grow flex-1 overflow-y-auto pr-1.5 space-y-6"
         >
-          <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6">
-            {messages.map((message) => (
-              <article
-                key={message.id}
-                className={cn(
-                  "flex",
-                  message.role === "user"
-                    ? "justify-end"
-                    : "justify-start"
-                )}
-              >
-                <div
+          {messages.length <= 1 ? (
+            <div className="h-full flex flex-col items-center justify-center text-center px-4 py-8 max-w-xl mx-auto my-auto">
+              <div className="relative mb-5">
+                <div className="absolute -inset-2 rounded-full bg-gradient-to-tr from-sky-500 to-indigo-500 blur opacity-20 animate-pulse"></div>
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-500 text-white shadow-lg shadow-sky-500/20">
+                  <Sparkles className="h-7 w-7" />
+                </div>
+              </div>
+
+              <h2 className="text-lg font-bold text-slate-900 mb-1.5">
+                Clinical Knowledge Base Search
+              </h2>
+              <p className="text-xs text-slate-500 leading-relaxed mb-6">
+                Ask specific medical questions, query uploaded clinic policies, diagnostic charts, or drug guides. I'll scan the indexed context to provide precise references.
+              </p>
+
+              <div className="w-full space-y-2.5">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-left pl-1">
+                  Suggested Queries
+                </p>
+                <div className="grid gap-2.5 sm:grid-cols-2">
+                  {quickPrompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      onClick={() => void sendMessage(prompt)}
+                      className="flex items-center text-left rounded-xl border border-slate-100 bg-white p-3 text-xs font-medium text-slate-700 transition duration-200 hover:border-sky-300 hover:bg-sky-50/50 hover:text-sky-700 hover:scale-[1.01] active:scale-[0.99] shadow-sm"
+                    >
+                      <Sparkles className="mr-2 h-3.5 w-3.5 text-sky-500 shrink-0" />
+                      <span className="truncate">{prompt}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {messages.map((message) => (
+                <article
+                  key={message.id}
                   className={cn(
-                    "flex max-w-[95%] gap-3 sm:max-w-[82%]",
-                    message.role === "user" &&
-                      "flex-row-reverse"
+                    "flex w-full gap-3",
+                    message.role === "user"
+                      ? "justify-end"
+                      : "justify-start"
                   )}
                 >
-                  {/* AVATAR */}
-                  <div
-                    className={cn(
-                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl",
-                      message.role === "user"
-                        ? "bg-sky-600 text-white"
-                        : "border border-slate-200 bg-white text-slate-700"
-                    )}
-                  >
-                    {message.role === "user" ? (
-                      <User className="h-4 w-4" />
-                    ) : (
-                      <Bot className="h-4 w-4" />
-                    )}
-                  </div>
+                  {message.role === "assistant" && (
+                    <div className="flex h-9 w-9 shrink-0 select-none items-center justify-center rounded-xl bg-gradient-to-tr from-sky-50 to-indigo-50 border border-sky-100 text-sky-600 shadow-sm">
+                      <Bot className="h-4.5 w-4.5" />
+                    </div>
+                  )}
 
-                  {/* MESSAGE */}
                   <div
                     className={cn(
-                      "rounded-3xl px-4 py-4 shadow-sm",
+                      "relative max-w-[85%] rounded-2xl px-4 py-3.5 shadow-sm transition-all duration-200",
                       message.role === "user"
-                        ? "bg-sky-600 text-white"
-                        : "border border-slate-200 bg-white text-slate-800"
+                        ? "bg-gradient-to-br from-sky-600 to-indigo-600 text-white rounded-tr-none shadow-md shadow-indigo-600/10"
+                        : "bg-slate-50/60 border border-slate-100 text-slate-800 rounded-tl-none hover:bg-slate-50"
                     )}
                   >
                     {message.role === "assistant" ? (
-                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                        {message.content}
-                      </ReactMarkdown>
+                      <div className="prose prose-slate max-w-none dark:prose-invert">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={markdownComponents}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
                     ) : (
-                      <p className="whitespace-pre-wrap text-sm leading-7">
+                      <p className="whitespace-pre-wrap text-sm leading-6">
                         {message.content}
                       </p>
                     )}
@@ -322,12 +348,15 @@ export default function AskAiPage() {
                     {message.role === "assistant" &&
                       message.toolUsage &&
                       message.toolUsage.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-2">
+                        <div className="mt-3.5 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-2.5">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mr-1 select-none">
+                            Engines:
+                          </span>
                           {message.toolUsage.map((tool) => (
                             <Badge
                               key={tool}
-                              variant="secondary"
-                              className="rounded-full"
+                              variant="outline"
+                              className="rounded-full bg-white text-slate-600 border-slate-200 px-2.5 py-0 text-[10px]"
                             >
                               {tool}
                             </Badge>
@@ -339,117 +368,112 @@ export default function AskAiPage() {
                     {message.role === "assistant" &&
                       message.sources &&
                       message.sources.length > 0 && (
-                        <div className="mt-5 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                        <div className="mt-4 space-y-2 rounded-xl border border-slate-100 bg-white p-3 shadow-inner">
                           <div className="flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-slate-500" />
-
-                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                              Sources
+                            <div className="flex h-5 w-5 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
+                              <FileText className="h-3 w-3" />
+                            </div>
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                              Grounded Sources ({message.sources.length})
                             </p>
                           </div>
 
-                          {message.sources.map((source) => (
-                            <div
-                              key={source.id}
-                              className="rounded-2xl bg-white p-3"
-                            >
-                              <div className="mb-2 flex items-center justify-between gap-2">
-                                <p className="truncate text-xs font-semibold text-slate-700">
-                                  {source.fileName}
+                          <div className="grid gap-2 sm:grid-cols-2">
+                            {message.sources.map((source) => (
+                              <div
+                                key={source.id}
+                                className="group relative rounded-lg border border-slate-50 bg-slate-50/20 p-2.5 transition duration-150 hover:border-indigo-100 hover:bg-indigo-50/10"
+                              >
+                                <div className="mb-1.5 flex items-center justify-between gap-2">
+                                  <p className="truncate text-xs font-semibold text-slate-700 group-hover:text-indigo-900">
+                                    {source.fileName}
+                                  </p>
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-white px-1.5 py-0 text-[9px] font-normal border-slate-100 text-slate-400 group-hover:text-indigo-600 group-hover:border-indigo-200"
+                                  >
+                                    Chunk {source.chunkIndex + 1}
+                                  </Badge>
+                                </div>
+                                <p className="line-clamp-3 text-[11px] leading-5 text-slate-500 group-hover:text-slate-600">
+                                  {source.content}
                                 </p>
-
-                                <Badge
-                                  variant="outline"
-                                  className="text-[10px]"
-                                >
-                                  Chunk{" "}
-                                  {source.chunkIndex + 1}
-                                </Badge>
                               </div>
-
-                              <p className="line-clamp-4 text-xs leading-6 text-slate-500">
-                                {source.content}
-                              </p>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       )}
                   </div>
-                </div>
-              </article>
-            ))}
 
-            {/* LOADING */}
-            {isSending && (
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white">
-                  <Loader2 className="h-4 w-4 animate-spin text-slate-500" />
-                </div>
+                  {message.role === "user" && (
+                    <div className="flex h-9 w-9 shrink-0 select-none items-center justify-center rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 text-white shadow-md shadow-indigo-600/10">
+                      <User className="h-4.5 w-4.5" />
+                    </div>
+                  )}
+                </article>
+              ))}
 
-                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-500 shadow-sm">
-                  Searching knowledge base...
+              {/* LOADING INDICATOR */}
+              {isSending && (
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-white shadow-sm">
+                    <Loader2 className="h-4 w-4 animate-spin text-sky-600" />
+                  </div>
+
+                  <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-xs text-slate-500 shadow-sm animate-pulse">
+                    Scanning knowledge base and formulating grounded response...
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
+      </div>
 
-        {/* FIXED INPUT SECTION */}
-        <div className="shrink-0 border-t border-slate-200 bg-white">
-          <div className="mx-auto max-w-5xl px-4 py-4">
-            {/* SUGGESTIONS */}
-            {messages.length <= 1 && (
-              <div className="mb-3 flex flex-wrap gap-2">
-                {quickPrompts.map((prompt) => (
-                  <button
-                    key={prompt}
-                    type="button"
-                    onClick={() => void sendMessage(prompt)}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-xs font-medium text-slate-600 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* INPUT */}
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-                void sendMessage();
+      {/* INPUT SECTION */}
+      <div className="shrink-0 pt-4 border-t border-slate-100 bg-white">
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            void sendMessage();
+          }}
+        >
+          <div className="relative rounded-2xl border border-slate-200 bg-white p-2 shadow-sm focus-within:border-sky-400 focus-within:ring-1 focus-within:ring-sky-400 transition-all duration-200">
+            <Textarea
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  void sendMessage();
+                }
               }}
-            >
-              <div className="rounded-[28px] border border-slate-200 bg-white p-3 shadow-lg shadow-slate-200/50">
-                <Textarea
-                  value={input}
-                  onChange={(event) =>
-                    setInput(event.target.value)
-                  }
-                  placeholder="Ask about uploaded documents..."
-                  className="max-h-40 min-h-15 resize-none border-0 bg-transparent px-2 py-2 text-sm shadow-none focus-visible:ring-0"
-                />
+              placeholder="Ask a medical clinical question grounded in your uploaded documents..."
+              className="max-h-32 min-h-[50px] w-full resize-none border-0 bg-transparent py-2 px-3 text-sm shadow-none focus-visible:ring-0 placeholder:text-slate-400 text-slate-800"
+            />
 
-                <div className="mt-3 flex items-center justify-end">
-                  <Button
-                    type="submit"
-                    disabled={isSending || !input.trim()}
-                    className="h-11 rounded-2xl px-5"
-                  >
-                    {isSending ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <>
-                        <Send className="mr-2 h-4 w-4" />
-                        Send
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </form>
+            <div className="flex items-center justify-between border-t border-slate-50 pt-2 px-2.5">
+              <span className="text-[10px] text-slate-400 font-medium">
+                Grounded on uploaded database • AI-generated advice should be verified
+              </span>
+
+              <Button
+                type="submit"
+                disabled={isSending || !input.trim()}
+                className="h-9 rounded-xl px-4 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-medium text-xs flex items-center gap-1.5 transition-all shadow-md shadow-sky-600/10 hover:shadow-lg active:scale-[0.98]"
+              >
+                {isSending ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <>
+                    <Send className="h-3.5 w-3.5" />
+                    <span>Send Query</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
