@@ -20,3 +20,4 @@
     ```
 - add pg_cron for vaccination scheduled email send
 - use an open source model for embedding, not hash system 
+- we have static user check on login. make it db check

@@ -44,6 +44,28 @@ export const authConfig = {
             role: "HealthWorker",
           };
         }
+        if (
+          credentials?.email === "admin@health.gov" &&
+          credentials?.password === "password123"
+        ) {
+          return {
+            id: "2",
+            name: "Admin Doctor Saikat",
+            email: "admin@health.gov",
+            role: "Admin",
+          };
+        }
+        if (
+          credentials?.email === "superadmin@health.gov" &&
+          credentials?.password === "password123"
+        ) {
+          return {
+            id: "3",
+            name: "SuperAdmin Saikat",
+            email: "superadmin@health.gov",
+            role: "SuperAdmin",
+          };
+        }
         return null;
       },
     }),

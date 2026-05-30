@@ -35,6 +35,9 @@ export default async function HomePage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link href="/docs" className="inline-flex items-center gap-1.5 rounded-xl border border-sky-105 bg-sky-50/80 px-4 py-2 text-sm font-semibold text-sky-700 hover:bg-sky-100 transition">
+              Live Docs
+            </Link>
             <Link href="/login" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
               Sign in
               <ArrowRight className="h-4 w-4" />
