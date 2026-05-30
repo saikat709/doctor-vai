@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { invokeDeepSeekStructured } from "@/lib/deepseek";
 
 type RiskPayload = {
   age?: number;
@@ -13,6 +14,26 @@ type RiskResult = {
   metrics: string[];
   precautions: string[];
 };
+
+const riskSchema = {
+  type: "object",
+  properties: {
+    attentionLevel: {
+      type: "string",
+      enum: ["Standard Care", "Monitor Closely", "High Priority"],
+    },
+    metrics: {
+      type: "array",
+      items: { type: "string" },
+    },
+    precautions: {
+      type: "array",
+      items: { type: "string" },
+    },
+  },
+  required: ["attentionLevel", "metrics", "precautions"],
+  additionalProperties: false,
+} as const;
 
 function buildMockRisk(payload: RiskPayload): RiskResult {
   const symptoms = (payload.symptoms ?? "").toLowerCase();
@@ -68,49 +89,20 @@ function buildMockRisk(payload: RiskPayload): RiskResult {
 
 export async function POST(request: Request) {
   const body = (await request.json()) as RiskPayload;
+  try {
+    const result = await invokeDeepSeekStructured<RiskResult>({
+      model: "deepseek-chat",
+      temperature: 0.2,
+      systemPrompt:
+        "You are a triage assistant. Never provide a definitive disease diagnosis or name-based diagnosis. Return only JSON with attentionLevel, metrics, and precautions. attentionLevel must be exactly one of: Standard Care, Monitor Closely, High Priority.",
+      userPrompt: JSON.stringify(body),
+      schema: riskSchema,
+      knowledgeQuery: [body.symptoms, body.comorbidities].filter(Boolean).join(" "),
+      knowledgeLimit: 5,
+    });
 
-  const prompt = {
-    model: "deepseek-chat",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a triage assistant. Never provide a definitive disease diagnosis or name-based diagnosis. Return only raw JSON with attentionLevel, metrics, and precautions. attentionLevel must be exactly one of: Standard Care, Monitor Closely, High Priority.",
-      },
-      {
-        role: "user",
-        content: JSON.stringify(body),
-      },
-    ],
-    response_format: { type: "json_object" },
-    temperature: 0.2,
-  };
-
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-
-  if (apiKey) {
-    try {
-      const response = await fetch("https://api.deepseek.com/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(prompt),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const content = data?.choices?.[0]?.message?.content;
-
-        if (typeof content === "string") {
-          return NextResponse.json(JSON.parse(content) as RiskResult);
-        }
-      }
-    } catch {
-      // Fall back to the local deterministic triage heuristic.
-    }
+    return NextResponse.json(result);
+  } catch {
+    return NextResponse.json(buildMockRisk(body));
   }
-
-  return NextResponse.json(buildMockRisk(body));
 }

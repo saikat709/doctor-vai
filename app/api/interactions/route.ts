@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { invokeDeepSeekStructured } from "@/lib/deepseek";
 
 type InteractionPayload = {
   disease?: string;
@@ -11,6 +12,23 @@ type InteractionResult = {
   explanation: string;
   alternatives: string[];
 };
+
+const interactionSchema = {
+  type: "object",
+  properties: {
+    verdict: {
+      type: "string",
+      enum: ["Go Ahead", "Not Harmful", "Moderate Harm", "Seems Harmful"],
+    },
+    explanation: { type: "string" },
+    alternatives: {
+      type: "array",
+      items: { type: "string" },
+    },
+  },
+  required: ["verdict", "explanation", "alternatives"],
+  additionalProperties: false,
+} as const;
 
 function buildMockResult(payload: InteractionPayload): InteractionResult {
   const medicines = (payload.medicines ?? []).map((medicine) => medicine.trim()).filter(Boolean);
@@ -65,50 +83,20 @@ function buildMockResult(payload: InteractionPayload): InteractionResult {
 
 export async function POST(request: Request) {
   const body = (await request.json()) as InteractionPayload;
+  try {
+    const result = await invokeDeepSeekStructured<InteractionResult>({
+      model: "deepseek-chat",
+      temperature: 0.2,
+      systemPrompt:
+        "Return only JSON with keys verdict, explanation, and alternatives. Verdict must be one of: Go Ahead, Not Harmful, Moderate Harm, Seems Harmful.",
+      userPrompt: JSON.stringify(body),
+      schema: interactionSchema,
+      knowledgeQuery: [body.disease, body.symptoms, ...(body.medicines ?? [])].filter(Boolean).join(" "),
+      knowledgeLimit: 5,
+    });
 
-  const payload = {
-    model: "deepseek-chat",
-    messages: [
-      {
-        role: "system",
-        content:
-          "Return only raw JSON with keys verdict, explanation, and alternatives. Verdict must be one of: Go Ahead, Not Harmful, Moderate Harm, Seems Harmful.",
-      },
-      {
-        role: "user",
-        content: JSON.stringify(body),
-      },
-    ],
-    response_format: { type: "json_object" },
-    temperature: 0.2,
-  };
-
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-
-  if (apiKey) {
-    try {
-      const response = await fetch("https://api.deepseek.com/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const content = data?.choices?.[0]?.message?.content;
-
-        if (typeof content === "string") {
-          const parsed = JSON.parse(content) as InteractionResult;
-          return NextResponse.json(parsed);
-        }
-      }
-    } catch {
-      // Fall through to the deterministic local mock below.
-    }
+    return NextResponse.json(result);
+  } catch {
+    return NextResponse.json(buildMockResult(body));
   }
-
-  return NextResponse.json(buildMockResult(body));
 }

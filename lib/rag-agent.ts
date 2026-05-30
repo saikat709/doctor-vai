@@ -1,5 +1,6 @@
 import { AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage } from "@langchain/core/messages";
 import { END, MessagesAnnotation, START, StateGraph } from "@langchain/langgraph";
+import { getDeepSeekChatModel } from "./deepseek";
 import {
   getKnowledgeBaseStats,
   listKnowledgeDocuments,
@@ -13,22 +14,7 @@ type ChatInputMessage = {
   content: string;
 };
 
-type OpenAIToolCall = {
-  id: string;
-  type: "function";
-  function: {
-    name: string;
-    arguments: string;
-  };
-};
-
-type ToolCallResult = {
-  name: string;
-  callId: string;
-  content: string;
-};
-
-const DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions";
+const deepSeekModel = getDeepSeekChatModel({ temperature: 0.2 });
 
 const SYSTEM_PROMPT = `
 You are Doctor VAI's grounded assistant.
@@ -148,78 +134,7 @@ const CHAT_TOOLS = [
   },
 ] as const;
 
-function toChatCompletionMessages(messages: BaseMessage[]) {
-  return messages.map((message) => {
-    if (message instanceof SystemMessage) {
-      return {
-        role: "system" as const,
-        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
-      };
-    }
-
-    if (message instanceof HumanMessage) {
-      return {
-        role: "user" as const,
-        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
-      };
-    }
-
-    if (message instanceof ToolMessage) {
-      return {
-        role: "tool" as const,
-        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
-        tool_call_id: message.tool_call_id,
-      };
-    }
-
-    if (message instanceof AIMessage) {
-      const serializedMessage: {
-        role: "assistant";
-        content: string;
-        tool_calls?: Array<{
-          id: string;
-          type: "function";
-          function: {
-            name: string;
-            arguments: string;
-          };
-        }>;
-      } = {
-        role: "assistant" as const,
-        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
-      };
-
-      if (message.tool_calls && message.tool_calls.length > 0) {
-        serializedMessage.tool_calls = message.tool_calls.map((toolCall) => ({
-          id: toolCall.id ?? crypto.randomUUID(),
-          type: "function" as const,
-          function: {
-            name: toolCall.name,
-            arguments: JSON.stringify(toolCall.args ?? {}),
-          },
-        }));
-      }
-
-      return serializedMessage;
-    }
-
-    return {
-      role: "user" as const,
-      content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
-    };
-  });
-}
-
-function parseToolArguments(rawArguments: string | undefined) {
-  if (!rawArguments) return {};
-
-  try {
-    const parsed = JSON.parse(rawArguments);
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
+const deepSeekModelWithTools = deepSeekModel.bindTools([...CHAT_TOOLS], { tool_choice: "auto" });
 
 async function executeToolCall(name: string, args: Record<string, unknown>) {
   switch (name) {
@@ -265,47 +180,6 @@ async function executeToolCall(name: string, args: Record<string, unknown>) {
   }
 }
 
-async function callDeepSeek(messages: BaseMessage[]) {
-  const response = await fetch(DEEPSEEK_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "deepseek-chat",
-      messages: toChatCompletionMessages(messages),
-      tools: CHAT_TOOLS,
-      tool_choice: "auto",
-      temperature: 0.2,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`DeepSeek chat request failed: ${response.status} ${errorText}`);
-  }
-
-  const data = await response.json();
-  const message = data.choices?.[0]?.message;
-
-  if (!message) {
-    throw new Error("DeepSeek returned an empty assistant message.");
-  }
-
-  const toolCalls = (message.tool_calls ?? []).map((toolCall: OpenAIToolCall) => ({
-    id: toolCall.id,
-    name: toolCall.function.name,
-    args: parseToolArguments(toolCall.function.arguments),
-    type: "tool_call" as const,
-  }));
-
-  return new AIMessage({
-    content: message.content ?? "",
-    tool_calls: toolCalls,
-  });
-}
-
 function shouldContinue(state: { messages: BaseMessage[] }) {
   const lastMessage = state.messages[state.messages.length - 1];
 
@@ -318,7 +192,7 @@ function shouldContinue(state: { messages: BaseMessage[] }) {
 
 async function agentNode(state: { messages: BaseMessage[] }) {
   const messages = [new SystemMessage(SYSTEM_PROMPT), ...state.messages];
-  const aiMessage = await callDeepSeek(messages);
+  const aiMessage = await deepSeekModelWithTools.invoke(messages);
 
   return {
     messages: [aiMessage],
