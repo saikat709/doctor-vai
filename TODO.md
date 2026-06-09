@@ -19,5 +19,5 @@
     cloudflared tunnel --url http://localhost:11434
     ```
 - add pg_cron for vaccination scheduled email send
-- use an open source model for embedding, not hash system 
+- use an open source model for embedding, not hash system (all-MiniLM-L6-v2)
 - we have static user check on login. make it db check
