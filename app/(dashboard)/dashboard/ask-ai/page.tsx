@@ -365,7 +365,7 @@ export default function AskAiPage() {
                       )}
 
                     {/* SOURCES */}
-                    {message.role === "assistant" &&
+                    {/* {message.role === "assistant" &&
                       message.sources &&
                       message.sources.length > 0 && (
                         <div className="mt-4 space-y-2 rounded-xl border border-slate-100 bg-white p-3 shadow-inner">
@@ -373,9 +373,9 @@ export default function AskAiPage() {
                             <div className="flex h-5 w-5 items-center justify-center rounded-md bg-indigo-50 text-indigo-600">
                               <FileText className="h-3 w-3" />
                             </div>
-                            {/* <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                               Grounded Sources ({message.sources.length})
-                            </p> */}
+                            </p>
                           </div>
 
                           <div className="grid gap-2 sm:grid-cols-2">
@@ -402,7 +402,7 @@ export default function AskAiPage() {
                             ))}
                           </div>
                         </div>
-                      )}
+                      )} */}
                   </div>
 
                   {message.role === "user" && (
