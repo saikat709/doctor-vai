@@ -14,6 +14,9 @@ import {
   AlertCircle,
   Sparkles,
   Plus,
+  ShieldCheck,
+  Link2,
+  Download,
 } from "lucide-react";
 
 import { toast } from "sonner";
@@ -22,6 +25,7 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConnectLocalModal } from "@/components/settings/connect-local-modal";
 
 import {
   Dialog,
@@ -60,6 +64,13 @@ interface KnowledgeDoc {
   stage?: string;
 }
 
+type LocalLlmConfig = {
+  enabled: boolean;
+  tunnelUrl: string;
+  selectedModel: string;
+  verifiedAt?: string | null;
+};
+
 const CACHE_LIMITS = ["100 MB", "500 MB", "1 GB"];
 
 const STORAGE_KEY = "doctor_vai_documents";
@@ -95,6 +106,11 @@ export default function SettingsPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [offlineMode, setOfflineMode] = useState(false);
+  const [localAiConfig, setLocalAiConfig] = useState<LocalLlmConfig | null>(
+    null
+  );
+  const [localModalOpen, setLocalModalOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const docsRef = useRef<KnowledgeDoc[]>([]);
@@ -104,25 +120,67 @@ export default function SettingsPage() {
   }, [documents]);
 
   useEffect(() => {
+    let timeoutId = 0;
+
     try {
       const savedDocs = localStorage.getItem(STORAGE_KEY);
-
-      if (savedDocs) {
-        setDocuments(JSON.parse(savedDocs));
-      }
-
       const savedSettings = localStorage.getItem(SETTINGS_KEY);
-
-      if (savedSettings) {
-        const parsed = JSON.parse(savedSettings);
-
-        if (parsed.cacheLimit) {
-          setCacheLimit(parsed.cacheLimit);
+      timeoutId = window.setTimeout(() => {
+        if (savedDocs) {
+          setDocuments(JSON.parse(savedDocs));
         }
-      }
+
+        if (savedSettings) {
+          const parsed = JSON.parse(savedSettings);
+
+          if (parsed.cacheLimit) {
+            setCacheLimit(parsed.cacheLimit);
+          }
+        }
+      }, 0);
     } catch {
       toast.error("Unable to load local settings.");
     }
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadLocalAiState() {
+      try {
+        const [modeResponse, configResponse] = await Promise.all([
+          fetch("/api/config/mode", { cache: "no-store" }),
+          fetch("/api/settings/local-llm", { cache: "no-store" }),
+        ]);
+
+        const modeData = (await modeResponse.json()) as {
+          offline?: boolean;
+        };
+        const configData = (await configResponse.json()) as {
+          config?: LocalLlmConfig | null;
+        };
+
+        if (!cancelled) {
+          setOfflineMode(Boolean(modeData.offline));
+          setLocalAiConfig(configData.config ?? null);
+        }
+      } catch {
+        if (!cancelled) {
+          setOfflineMode(false);
+          setLocalAiConfig(null);
+        }
+      }
+    }
+
+    void loadLocalAiState();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const persistDocs = (docs: KnowledgeDoc[]) => {
@@ -386,10 +444,91 @@ export default function SettingsPage() {
           </div>
         </section>
 
+        {offlineMode ? (
+          <section className="rounded-[28px] border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900 shadow-sm">
+            <span className="font-semibold">Offline Mode</span> Local AI is
+            required before the desktop build can use AI workflows.
+          </section>
+        ) : null}
+
         {/* MAIN */}
         <section className="grid gap-6 xl:grid-cols-[340px_1fr]">
           {/* SIDEBAR */}
           <div className="space-y-6">
+            <div
+              id="local-ai"
+              className={cn(
+                "rounded-[28px] border bg-white p-6 shadow-sm",
+                offlineMode
+                  ? "border-amber-300 shadow-amber-100/60"
+                  : "border-slate-200"
+              )}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="rounded-xl bg-emerald-100 p-2 text-emerald-700">
+                    <ShieldCheck className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-semibold text-slate-900">
+                      Local AI
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Ollama + Cloudflare tunnel
+                    </p>
+                  </div>
+                </div>
+
+                {offlineMode ? (
+                  <Badge className="rounded-full bg-amber-100 text-amber-800">
+                    Required
+                  </Badge>
+                ) : null}
+              </div>
+
+              <div className="mt-5 space-y-4">
+                {localAiConfig?.enabled ? (
+                  <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                    <div className="flex items-center gap-2 text-emerald-700">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <p className="text-sm font-semibold">Local AI Active</p>
+                    </div>
+                    <p className="mt-2 text-sm text-emerald-900">
+                      Using <span className="font-semibold">{localAiConfig.selectedModel}</span>{" "}
+                      via {localAiConfig.tunnelUrl}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="flex items-center gap-2 text-slate-700">
+                      <Link2 className="h-4 w-4" />
+                      <p className="text-sm font-semibold">Disconnected</p>
+                    </div>
+                    <p className="mt-2 text-sm text-slate-600">
+                      Connect your local Ollama runtime and pick a model for
+                      Doctor Vai.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <Button
+                    className="h-11 rounded-2xl"
+                    onClick={() => setLocalModalOpen(true)}
+                  >
+                    <ShieldCheck className="mr-2 h-4 w-4" />
+                    {localAiConfig?.enabled ? "Reconfigure" : "Connect Local"}
+                  </Button>
+                  <Button asChild variant="outline" className="h-11 rounded-2xl">
+                    <a href="/offline">
+                      <Download className="mr-2 h-4 w-4" />
+                      Offline Downloads
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-2">
                 <div className="rounded-xl bg-sky-100 p-2 text-sky-700">
@@ -709,6 +848,12 @@ export default function SettingsPage() {
           </div>
         </section>
       </div>
+      <ConnectLocalModal
+        open={localModalOpen}
+        onOpenChange={setLocalModalOpen}
+        offlineRequired={offlineMode}
+        onSaved={setLocalAiConfig}
+      />
     </div>
   );
 }

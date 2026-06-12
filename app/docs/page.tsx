@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth-helper";
 import DocsClient from "./DocsClient";
 
 export const metadata = {
@@ -7,6 +7,6 @@ export const metadata = {
 };
 
 export default async function DocsPage() {
-  const session = await auth();
+  const session = await getSession();
   return <DocsClient user={session?.user || null} />;
 }

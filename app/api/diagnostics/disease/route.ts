@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSession } from "@/lib/auth-helper";
 import { invokeDeepSeekStructured } from "@/lib/deepseek";
+import { buildOllamaNotConfiguredResponse } from "@/lib/local-llm";
 
 type Diagnosis = {
   diseaseName: string;
@@ -37,6 +39,7 @@ const diseaseSchema = {
 export async function POST(req: NextRequest) {
   try {
     const { selectedSymptoms, notes } = await req.json();
+    const session = await getSession();
 
     if (!selectedSymptoms || selectedSymptoms.length === 0) {
       return NextResponse.json(
@@ -48,6 +51,7 @@ export async function POST(req: NextRequest) {
     const symptomList = selectedSymptoms.join(", ");
 
     const result = await invokeDeepSeekStructured<DiseaseResult>({
+      userId: session?.user?.id,
       model: "deepseek-chat",
       temperature: 0.3,
       systemPrompt:
@@ -60,6 +64,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
+    if (error instanceof Error && error.message === "OLLAMA_NOT_CONFIGURED") {
+      return buildOllamaNotConfiguredResponse();
+    }
+
     console.error("[DISEASE_DETECTION_ERROR]", error);
     return NextResponse.json(
       { error: "Failed to process differential diagnosis" },

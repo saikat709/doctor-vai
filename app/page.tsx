@@ -1,8 +1,8 @@
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, ShieldCheck, Sparkles, Wifi } from "lucide-react";
-import { auth } from "@/auth";
+import { ArrowRight, Download, ShieldCheck, Sparkles, Wifi } from "lucide-react";
+import { getSession } from "@/lib/auth-helper";
 
 const highlights = [
   { title: "Offline Utility", description: "Forms, session state, and intake workflows stay usable in low-connectivity clinics.", icon: Wifi },
@@ -18,7 +18,7 @@ const quickActions = [
 ];
 
 export default async function HomePage() {
-  const session = await auth();
+  const session = await getSession();
 
   if (session?.user) redirect("/dashboard/session");
 
@@ -35,6 +35,10 @@ export default async function HomePage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link href="/offline" className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50/90 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100">
+              <Download className="h-4 w-4" />
+              Offline
+            </Link>
             <Link href="/docs" className="inline-flex items-center gap-1.5 rounded-xl border border-sky-105 bg-sky-50/80 px-4 py-2 text-sm font-semibold text-sky-700 hover:bg-sky-100 transition">
               Live Docs
             </Link>

@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth-helper";
 import { defaultDocsConfig, defaultDocSections, defaultTeamMembers } from "@/lib/docs-default";
 
 // GET /api/docs/config
 // Returns current configuration, sections, team, and public access evaluation
 export async function GET() {
   try {
-    const session = await auth();
+    const session = await getSession();
     const isAdmin = session?.user && (session.user as { role?: string }).role && ["Admin", "SuperAdmin"].includes((session.user as { role?: string }).role || "");
 
     // Fetch config
@@ -58,7 +58,7 @@ export async function GET() {
 // Updates a specific part of the configuration ("config", "sections", "team")
 export async function POST(req: Request) {
   try {
-    const session = await auth();
+    const session = await getSession();
     const role = (session?.user as { role?: string })?.role;
 
     if (!session || !role || !["Admin", "SuperAdmin"].includes(role)) {

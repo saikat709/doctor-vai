@@ -2,16 +2,52 @@
   "name": "doctor-vai",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "dev:electron": "cross-env OFFLINE=true concurrently \"next dev\" \"wait-on http://127.0.0.1:3000 && electron .\"",
+    "build:electron": "cross-env OFFLINE=true next build && electron-builder",
+    "electron:pack": "electron-builder --dir",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate"
   },
+  "build": {
+    "appId": "com.doctorvai.desktop",
+    "productName": "Doctor Vai",
+    "files": [
+      "electron/**/*",
+      ".next/**/*",
+      "app/**/*",
+      "components/**/*",
+      "lib/**/*",
+      "prisma/**/*",
+      "public/**/*",
+      "package.json",
+      "next.config.ts"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/doctor.ico"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "extraResources": [
+      {
+        "from": "prisma/migrations",
+        "to": "migrations"
+      }
+    ]
+  },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.66",
     "@auth/prisma-adapter": "^2.7.0",
+    "@electric-sql/pglite": "^0.4.1",
     "@langchain/core": "^1.1.48",
     "@langchain/langgraph": "^1.3.2",
     "@langchain/openai": "^1.4.7",
@@ -21,11 +57,14 @@
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.2",
     "framer-motion": "^11.0.0",
     "lucide-react": "^0.500.0",
     "next": "16.2.6",
     "next-auth": "^5.0.0-beta.31",
     "next-themes": "^0.4.6",
+    "ollama": "^0.6.3",
     "openai": "6.39.0",
     "pdf-parse": "^2.4.5",
     "pg": "8.21.0",
@@ -47,11 +86,14 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.0.10"
   }
 }

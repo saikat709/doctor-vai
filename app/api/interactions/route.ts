@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { getSession } from "@/lib/auth-helper";
 import { invokeDeepSeekStructured } from "@/lib/deepseek";
+import { buildOllamaNotConfiguredResponse } from "@/lib/local-llm";
 
 type InteractionPayload = {
   disease?: string;
@@ -84,7 +86,9 @@ function buildMockResult(payload: InteractionPayload): InteractionResult {
 export async function POST(request: Request) {
   const body = (await request.json()) as InteractionPayload;
   try {
+    const session = await getSession();
     const result = await invokeDeepSeekStructured<InteractionResult>({
+      userId: session?.user?.id,
       model: "deepseek-chat",
       temperature: 0.2,
       systemPrompt:
@@ -96,7 +100,11 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(result);
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "OLLAMA_NOT_CONFIGURED") {
+      return buildOllamaNotConfiguredResponse();
+    }
+
     return NextResponse.json(buildMockResult(body));
   }
 }

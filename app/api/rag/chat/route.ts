@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { buildOllamaNotConfiguredResponse } from "@/lib/local-llm";
 import { runRagConversation } from "@/lib/rag-agent";
 
 type ChatMessage = {
@@ -19,6 +20,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result);
   } catch (error) {
+    if (error instanceof Error && error.message === "OLLAMA_NOT_CONFIGURED") {
+      return buildOllamaNotConfiguredResponse();
+    }
+
     console.error("[RAG_CHAT_ERROR]", error);
     return NextResponse.json({ error: "Failed to generate a grounded answer" }, { status: 500 });
   }

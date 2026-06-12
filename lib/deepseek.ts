@@ -1,11 +1,8 @@
-import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import { ChatOpenAI } from "@langchain/openai";
 import { searchKnowledgeBase } from "@/lib/rag";
-
-const DEEPSEEK_BASE_URL = process.env.DEEPSEEK_BASE_URL ?? "https://api.deepseek.com/v1";
-const DEEPSEEK_MODEL = process.env.DEEPSEEK_MODEL ?? "deepseek-chat";
+import { generateCompletion } from "@/lib/llm-client";
 
 type DeepSeekModelOptions = {
+  userId?: string;
   model?: string;
   temperature?: number;
 };
@@ -17,23 +14,6 @@ type StructuredInvocationOptions = DeepSeekModelOptions & {
   knowledgeQuery?: string;
   knowledgeLimit?: number;
 };
-
-function createDeepSeekModel(options: DeepSeekModelOptions = {}) {
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("DEEPSEEK_API_KEY is not set");
-  }
-
-  return new ChatOpenAI({
-    model: options.model ?? DEEPSEEK_MODEL,
-    temperature: options.temperature ?? 0.2,
-    apiKey,
-    configuration: {
-      baseURL: DEEPSEEK_BASE_URL,
-    },
-  });
-}
 
 async function injectKnowledgeContext(userPrompt: string, query?: string, limit = 5) {
   const searchQuery = query?.trim();
@@ -61,17 +41,27 @@ async function injectKnowledgeContext(userPrompt: string, query?: string, limit 
   return `${userPrompt}\n\nRelevant uploaded document context:\n${context}`;
 }
 
-export function getDeepSeekChatModel(options: DeepSeekModelOptions = {}) {
-  return createDeepSeekModel(options);
-}
-
 export async function invokeDeepSeekStructured<T>(options: StructuredInvocationOptions) {
-  const llm = createDeepSeekModel(options).withStructuredOutput(options.schema);
   const userPrompt = await injectKnowledgeContext(
     options.userPrompt,
     options.knowledgeQuery,
     options.knowledgeLimit
   );
 
-  return llm.invoke([new SystemMessage(options.systemPrompt), new HumanMessage(userPrompt)]) as Promise<T>;
+  return generateCompletion({
+    userId: options.userId,
+    model: options.model,
+    temperature: options.temperature,
+    schema: options.schema,
+    messages: [
+      {
+        role: "system",
+        content: options.systemPrompt,
+      },
+      {
+        role: "user",
+        content: userPrompt,
+      },
+    ],
+  }) as Promise<T>;
 }

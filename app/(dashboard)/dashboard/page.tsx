@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Download } from "lucide-react";
 import { DashboardCharts } from "../../../components/dashboard-charts";
 import { db } from "../../../lib/db";
 
@@ -207,6 +208,13 @@ export default async function DashboardHomePage() {
         <Link href="/dashboard/interactions" className="rounded-2xl border border-slate-200 p-5 transition hover:border-sky-300 hover:bg-sky-50">
           <p className="text-sm font-semibold text-slate-900">Medicine interaction</p>
           <p className="mt-2 text-sm text-slate-600">Verify prescriptions and alternatives.</p>
+        </Link>
+        <Link href="/offline" className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 transition hover:border-emerald-300 hover:bg-emerald-100">
+          <div className="flex items-center gap-2 text-emerald-700">
+            <Download className="h-4 w-4" />
+            <p className="text-sm font-semibold">Offline</p>
+          </div>
+          <p className="mt-2 text-sm text-emerald-900">Download Windows and Linux desktop builds.</p>
         </Link>
       </div>
     </div>

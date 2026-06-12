@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   Activity,
   CalendarDays,
+  Download,
   FileText,
   Grid2x2,
   Menu,
@@ -25,6 +26,7 @@ const navItems = [
   { label: "Risk Detection", href: "/dashboard/risk", icon: Activity },
   { label: "Disease Detection", href: "/dashboard/disease", icon: Users },
   { label: "Vaccination Reminders", href: "/dashboard/reminders", icon: CalendarDays },
+  { label: "Offline", href: "/offline", icon: Download },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -41,11 +43,6 @@ export function Sidebar({ className, onNavigate, user }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-
-  useEffect(() => {
-    setMobileOpen(false);
-    setProfileOpen(false);
-  }, [pathname]);
 
   const activeHref = (() => {
     if (!pathname) return null;
