@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { isOffline } from "@/lib/env";
+import { stripLocalePrefix } from "@/lib/locale";
 
 export const authConfig = {
   pages: {
@@ -13,7 +14,8 @@ export const authConfig = {
       }
 
       const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+      const pathname = stripLocalePrefix(nextUrl.pathname);
+      const isOnDashboard = pathname.startsWith("/dashboard");
 
       if (isOnDashboard) {
         return isLoggedIn;

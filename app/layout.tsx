@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Sora, Space_Grotesk, Geist } from "next/font/google";
+import { cookies } from "next/headers";
+import { Inter, Sora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { isAppLocale } from "@/lib/locale";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -25,14 +27,18 @@ export const metadata: Metadata = {
     "A focused AI companion for clinical shifts, fast handovers, and safer care decisions.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("preferred_locale")?.value;
+  const htmlLang = isAppLocale(cookieLocale ?? "") ? cookieLocale : "en";
+
   return (
     <html
-      lang="en"
+      lang={htmlLang}
       className={cn(
         "h-full",
         "antialiased",

@@ -19,6 +19,8 @@ model User {
   email          String           @unique
   name           String?
   role           String           @default("HealthWorker")
+  preferredLocale String         @default("en")
+  chatbotLanguage String         @default("en")
   localLLMConfig LocalLLMConfig?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

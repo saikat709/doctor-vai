@@ -281,7 +281,7 @@ export default function AskAiPage() {
                 Clinical Knowledge Base Search
               </h2>
               <p className="text-xs text-slate-500 leading-relaxed mb-6">
-                Ask specific medical questions, query uploaded clinic policies, diagnostic charts, or drug guides. I'll scan the indexed context to provide precise references.
+                Ask specific medical questions, query uploaded clinic policies, diagnostic charts, or drug guides. I&apos;ll scan the indexed context to provide precise references.
               </p>
 
               <div className="w-full space-y-2.5">

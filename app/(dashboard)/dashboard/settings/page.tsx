@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "@/i18n/navigation";
 import {
   HardDrive,
   FileText,
@@ -26,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConnectLocalModal } from "@/components/settings/connect-local-modal";
+import { LanguagePreferencesCard } from "@/components/settings/language-preferences-card";
 
 import {
   Dialog,
@@ -390,6 +392,8 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 lg:px-4">
       <div className="space-y-4">
+        <LanguagePreferencesCard />
+
         {/* HEADER */}
         <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 p-4 text-white shadow-xl">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
@@ -520,10 +524,10 @@ export default function SettingsPage() {
                     {localAiConfig?.enabled ? "Reconfigure" : "Connect Local"}
                   </Button>
                   <Button asChild variant="outline" className="h-11 rounded-2xl">
-                    <a href="/offline">
+                    <Link href="/offline">
                       <Download className="mr-2 h-4 w-4" />
                       Offline Downloads
-                    </a>
+                    </Link>
                   </Button>
                 </div>
               </div>

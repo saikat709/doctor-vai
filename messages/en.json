@@ -1,0 +1,84 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "error": "Error",
+    "success": "Success",
+    "logout": "Logout",
+    "offline": "Offline"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "treatment": "Treatment Guidance",
+    "riskDetection": "Risk Detection",
+    "diseaseDetection": "Disease Detection",
+    "vaccination": "Vaccination Reminders",
+    "assistant": "Ask AI",
+    "settings": "Settings",
+    "medicine": "Medicine Interaction",
+    "session": "Patient Intake",
+    "offline": "Offline"
+  },
+  "language": {
+    "title": "Language & Region",
+    "interface": "Interface Language",
+    "ai": "AI Response Language",
+    "updated": "Language preferences updated.",
+    "saveAi": "Save AI language"
+  },
+  "dashboardHeader": {
+    "label": "Workspace",
+    "title": "Clinical operations"
+  },
+  "landing": {
+    "signin": "Sign in",
+    "liveDocs": "Live Docs",
+    "heroBadge": "Field-ready decision support",
+    "heroTitle": "Clinical Companion: Grounded Decision Support for Field Healthcare Workers.",
+    "heroDescription": "Built for frontline teams that need a fast, clear, privacy-preserving workflow.",
+    "goDashboard": "Go to Dashboard",
+    "preview": "View workspace preview"
+  },
+  "login": {
+    "eyebrow": "Secure Access",
+    "title": "Sign in to Doctor Vai",
+    "description": "Use your assigned clinical credentials to unlock the dashboard.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Continue to dashboard",
+    "submitting": "Signing in…",
+    "demo": "Demo access",
+    "demoDescription": "Sign in with worker@health.gov / password123 to simulate a clinician.",
+    "back": "Return to public landing"
+  },
+  "dashboard": {
+    "eyebrow": "Dashboard",
+    "title": "Clinical workspace overview",
+    "description": "Start a session, review guidance, or move into risk and disease detection."
+  },
+  "risk": {
+    "eyebrow": "Risk Detection",
+    "title": "Pre-treatment screening",
+    "description": "Collect pre-treatment data and return an attention flag without generating a definitive diagnosis.",
+    "age": "Patient Age",
+    "gender": "Gender",
+    "severity": "Severity level",
+    "comorbidities": "Comorbidities",
+    "symptoms": "Primary Symptoms",
+    "submit": "Evaluate Risk Level",
+    "error": "Unable to evaluate risk right now."
+  },
+  "assistant": {
+    "welcome": "Ask anything about your uploaded knowledge base. I’ll search indexed documents and return grounded answers.",
+    "error": "Failed to generate response."
+  },
+  "settings": {
+    "title": "Settings"
+  }
+}
+

@@ -12,6 +12,13 @@ An AI-powered decision-support tool designed for frontline field health workers 
 - **Local Storage/State:** LocalStorage / React Context (optimized for offline-first capability where possible).
 - **Desktop Runtime:** Electron with offline-mode scaffolding, PGlite-backed Prisma runtime, and packaged download artifacts served from `/offline`.
 
+## Runtime Constraints
+
+- **Edge-safe env split:** `middleware.ts` imports `auth.config.ts`, so anything transitively imported there must stay Edge-compatible.
+- `lib/env.ts` is intentionally Edge-safe and must not import Node modules such as `node:path`.
+- Node-only offline path resolution lives in `lib/env-node.ts`.
+- If future offline/runtime helpers need `fs`, `path`, `process.cwd()`, or Electron-specific APIs, keep them out of `lib/env.ts` and out of middleware/auth config import chains.
+
 ## Architecture & Layout
 
 1.  **Landing Page:** Auth-aware root entry with a medical hero, offline/privacy/decision-support message pillars, and a prominent "Go to Dashboard" button.
@@ -25,6 +32,8 @@ An AI-powered decision-support tool designed for frontline field health workers 
 - Added Local AI configuration with a multi-step "Connect Local" settings modal, Prisma-backed `LocalLLMConfig`, Ollama health/configuration endpoints, a unified LLM client that switches between DeepSeek and Ollama, and an offline dashboard guard when Ollama is required.
 - Added an `/offline` download page plus homepage/dashboard/sidebar entry points for Windows and Linux desktop artifacts expected at `public/offline/windows-setup.exe` and `public/offline/doctor-vai.appimage`.
 - Added offline runtime scaffolding: `OFFLINE=true` mode helpers, offline session fallback, Electron launcher files, PGlite socket-backed Prisma bootstrap, and offline migration wiring.
+- Fixed an Edge runtime regression by moving Node-only DB path logic from `lib/env.ts` into `lib/env-node.ts`.
+- Added locale-prefixed App Router support with `next-intl`, translation catalogs for `en` / `bn` / `hi` / `ur`, a dashboard language switcher, Prisma-backed language preferences, and AI response-language prompt controls exposed in Settings.
 
 ## Core Features
 
@@ -36,6 +45,34 @@ An AI-powered decision-support tool designed for frontline field health workers 
 6.  **Assistant AI:** A private RAG-based chatbot interface interacting with uploaded local files.
 7.  **Settings & Knowledge Upload:** Control center including file uploads for the private RAG system and Local AI connectivity setup.
 8.  **Offline Distribution:** Public download page and Electron packaging flow for Windows/Linux desktop builds.
+
+## Important File Roles
+
+- `lib/llm-client.ts`: single switch point between DeepSeek and Ollama.
+- `lib/db.ts`: single runtime DB bootstrap with offline/online branching.
+- `lib/migrate-offline.ts`: offline Prisma migration runner used before Electron window load.
+- `components/settings/connect-local-modal.tsx`: user flow for Cloudflared + Ollama setup.
+- `components/offline/offline-mode-guard.tsx`: dashboard overlay when offline mode requires Local AI.
+- `app/offline/page.tsx`: public download page for desktop artifacts.
+
+## Offline Build Conventions
+
+- Desktop binaries are expected at:
+  - `public/offline/windows-setup.exe`
+  - `public/offline/doctor-vai.appimage`
+- The homepage, dashboard, and sidebar already link to `/offline`.
+- `npm run build` still requires explicit permission per `AGENTS.md`.
+
+## Known Follow-up Items
+
+- ESLint still reports pre-existing unrelated issues in:
+  - `app/(dashboard)/dashboard/ask-ai/page.tsx`
+  - `app/api/reminders/[id]/complete/route.ts`
+  - `app/docs/DocsClient.tsx`
+  - `app/layout.tsx`
+  - `components/dashboard-charts.tsx`
+- Electron packaging scripts/config are present, but a real production packaging pass was not run because `npm run build` needs permission first.
+- The current offline DB runtime uses `@electric-sql/pglite-socket` to expose a pg-compatible connection for Prisma.
 
 ## Env File:
 
