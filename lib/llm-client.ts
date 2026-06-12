@@ -1,6 +1,10 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { Ollama } from "ollama";
-import { getSavedLocalLlmConfig, LOCAL_LLM_UNCONFIGURED_ERROR } from "@/lib/local-llm";
+import {
+  fetchOllamaModels,
+  getSavedLocalLlmConfig,
+  LOCAL_LLM_UNCONFIGURED_ERROR,
+} from "@/lib/local-llm";
 import { OFFLINE_USER_ID, isOffline } from "@/lib/env";
 
 export type ChatRole = "system" | "user" | "assistant";
@@ -55,22 +59,31 @@ async function getLocalConfig(userId?: string) {
 }
 
 async function resolveBackend(userId?: string) {
-  if (isOffline) {
-    const config = await getLocalConfig(OFFLINE_USER_ID);
-    return {
-      kind: "ollama" as const,
-      client: new Ollama({ host: config.tunnelUrl }),
-      model: config.selectedModel,
-    };
-  }
-
   const config = await getSavedLocalLlmConfig(userId ?? OFFLINE_USER_ID);
 
   if (config?.enabled && config.tunnelUrl && config.selectedModel) {
+    try {
+      await fetchOllamaModels(config.tunnelUrl, 2500);
+
+      return {
+        kind: "ollama" as const,
+        client: new Ollama({ host: config.tunnelUrl }),
+        model: config.selectedModel,
+      };
+    } catch {
+      if (isOffline) {
+        throw new Error(LOCAL_LLM_UNCONFIGURED_ERROR);
+      }
+    }
+  }
+
+  if (isOffline) {
+    const localConfig = await getLocalConfig(OFFLINE_USER_ID);
+
     return {
       kind: "ollama" as const,
-      client: new Ollama({ host: config.tunnelUrl }),
-      model: config.selectedModel,
+      client: new Ollama({ host: localConfig.tunnelUrl }),
+      model: localConfig.selectedModel,
     };
   }
 
@@ -108,12 +121,19 @@ export async function generateCompletion(options: CompletionOptions) {
     });
 
     if (options.schema) {
-      return llm.withStructuredOutput(options.schema).invoke(
+      const response = await llm.invoke(
         options.messages.map((message) => ({
           role: message.role,
           content: message.content,
         }))
       );
+
+      const content =
+        typeof response.content === "string"
+          ? response.content
+          : JSON.stringify(response.content);
+
+      return JSON.parse(extractJsonBlock(content));
     }
 
     const response = await llm.invoke(

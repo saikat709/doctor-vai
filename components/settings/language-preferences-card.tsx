@@ -129,7 +129,7 @@ export function LanguagePreferencesCard({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <label className="space-y-2">
+        <div className="space-y-2">
           <span className="text-sm font-semibold text-slate-700">{t("interface")}</span>
           <Select
             value={preferredLocale}
@@ -141,7 +141,7 @@ export function LanguagePreferencesCard({
               });
             }}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -156,15 +156,15 @@ export function LanguagePreferencesCard({
               ))}
             </SelectContent>
           </Select>
-        </label>
+        </div>
 
-        <label className="space-y-2">
+        <div className="space-y-2">
           <span className="text-sm font-semibold text-slate-700">{t("ai")}</span>
           <Select
             value={chatbotLanguage}
             onValueChange={(value) => setChatbotLanguage(value as AppLocale)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -179,7 +179,7 @@ export function LanguagePreferencesCard({
               ))}
             </SelectContent>
           </Select>
-        </label>
+        </div>
       </div>
 
       <div className="mt-4">

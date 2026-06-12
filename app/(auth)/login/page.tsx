@@ -54,10 +54,10 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <div className="rounded-2xl border border-teal-100 bg-teal-50 p-4 text-xs text-teal-800">
+      {/* <div className="rounded-2xl border border-teal-100 bg-teal-50 p-4 text-xs text-teal-800">
         <p className="font-semibold">{t("demo")}</p>
         <p className="mt-1">{t("demoDescription")}</p>
-      </div>
+      </div> */}
 
       <Link href="/" className="text-xs font-semibold text-teal-700">
         {t("back")}
