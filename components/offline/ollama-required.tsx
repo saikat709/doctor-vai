@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { WifiOff } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 export function OllamaRequired() {
   return (

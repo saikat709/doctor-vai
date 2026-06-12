@@ -1,7 +1,8 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Download } from "lucide-react";
 import { DashboardCharts } from "../../../components/dashboard-charts";
 import { db } from "../../../lib/db";
+import { Link } from "@/i18n/navigation";
 
 function formatDayKey(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -41,6 +42,7 @@ async function withTimeoutFallback<T>(
 }
 
 export default async function DashboardHomePage() {
+  const t = await getTranslations("dashboard");
   const now = new Date();
   const sevenDaysAgo = new Date(now);
   sevenDaysAgo.setDate(now.getDate() - 6);
@@ -178,13 +180,13 @@ export default async function DashboardHomePage() {
     <div className="space-y-6">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-600">
-          Dashboard
+          {t("eyebrow")}
         </p>
         <h1 className="text-2xl font-semibold text-slate-900">
-          Clinical workspace overview
+          {t("title")}
         </h1>
         <p className="text-sm text-slate-600">
-          Start a session, review guidance, or move into risk and disease detection.
+          {t("description")}
         </p>
       </header>
 

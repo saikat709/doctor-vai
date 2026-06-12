@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth-helper";
 import { invokeDeepSeekStructured } from "@/lib/deepseek";
+import { getPromptLanguage } from "@/lib/locale";
 import { buildOllamaNotConfiguredResponse } from "@/lib/local-llm";
+import { getUserLanguagePreferences } from "@/lib/user-preferences";
 
 type RiskPayload = {
   age?: number;
@@ -93,12 +95,14 @@ export async function POST(request: Request) {
   const body = (await request.json()) as RiskPayload;
   try {
     const session = await getSession();
+    const preferences = await getUserLanguagePreferences(session?.user);
+    const responseLanguage = getPromptLanguage(preferences.chatbotLanguage);
     const result = await invokeDeepSeekStructured<RiskResult>({
       userId: session?.user?.id,
       model: "deepseek-chat",
       temperature: 0.2,
       systemPrompt:
-        "You are a triage assistant. Never provide a definitive disease diagnosis or name-based diagnosis. Return only JSON with attentionLevel, metrics, and precautions. attentionLevel must be exactly one of: Standard Care, Monitor Closely, High Priority.",
+        `You are a triage assistant. Never provide a definitive disease diagnosis or name-based diagnosis. Always write all JSON string values in ${responseLanguage}. Return only JSON with attentionLevel, metrics, and precautions. attentionLevel must be exactly one of: Standard Care, Monitor Closely, High Priority.`,
       userPrompt: JSON.stringify(body),
       schema: riskSchema,
       knowledgeQuery: [body.symptoms, body.comorbidities].filter(Boolean).join(" "),

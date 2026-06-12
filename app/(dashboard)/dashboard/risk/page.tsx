@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Loader2, ShieldAlert } from "lucide-react";
 
@@ -31,6 +32,7 @@ const attentionStyles: Record<AttentionLevel, { badge: string; panel: string; ti
 };
 
 export default function RiskPage() {
+  const t = useTranslations("risk");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState<"Male" | "Female" | "Other">("Female");
   const [severity, setSeverity] = useState<"Low" | "Medium" | "High">("Medium");
@@ -65,7 +67,7 @@ export default function RiskPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Unable to evaluate risk right now.");
+        throw new Error(t("error"));
       }
 
       const data = (await response.json()) as RiskResult;
@@ -83,20 +85,20 @@ export default function RiskPage() {
     <div className="space-y-6">
       <div className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-600">
-          Risk Detection
+          {t("eyebrow")}
         </p>
         <h1 className="text-2xl font-semibold text-slate-900">
-          Pre-treatment screening
+          {t("title")}
         </h1>
         <p className="max-w-2xl text-sm text-slate-600">
-          Collect pre-treatment data and return an attention flag without generating a definitive diagnosis.
+          {t("description")}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div className="grid gap-4 md:grid-cols-3">
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-slate-700">Patient Age</span>
+            <span className="text-sm font-semibold text-slate-700">{t("age")}</span>
             <input
               type="number"
               min="0"
@@ -108,7 +110,7 @@ export default function RiskPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-slate-700">Gender</span>
+            <span className="text-sm font-semibold text-slate-700">{t("gender")}</span>
             <select
               value={gender}
               onChange={(event) => setGender(event.target.value as "Male" | "Female" | "Other")}
@@ -121,7 +123,7 @@ export default function RiskPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-slate-700">Severity level</span>
+            <span className="text-sm font-semibold text-slate-700">{t("severity")}</span>
             <select
               value={severity}
               onChange={(event) => setSeverity(event.target.value as "Low" | "Medium" | "High")}
@@ -135,7 +137,7 @@ export default function RiskPage() {
         </div>
 
         <label className="space-y-2 block">
-          <span className="text-sm font-semibold text-slate-700">Comorbidities</span>
+          <span className="text-sm font-semibold text-slate-700">{t("comorbidities")}</span>
           <textarea
             value={comorbidities}
             onChange={(event) => setComorbidities(event.target.value)}
@@ -146,7 +148,7 @@ export default function RiskPage() {
         </label>
 
         <label className="space-y-2 block">
-          <span className="text-sm font-semibold text-slate-700">Primary Symptoms</span>
+          <span className="text-sm font-semibold text-slate-700">{t("symptoms")}</span>
           <textarea
             value={symptoms}
             onChange={(event) => setSymptoms(event.target.value)}
@@ -168,7 +170,7 @@ export default function RiskPage() {
           className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-rose-600 px-6 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(244,63,94,0.22)] transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldAlert className="h-4 w-4" />}
-          Evaluate Risk Level
+          {t("submit")}
         </button>
       </form>
 

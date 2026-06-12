@@ -1,8 +1,7 @@
-
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
 import { ArrowRight, Download, ShieldCheck, Sparkles, Wifi } from "lucide-react";
 import { getSession } from "@/lib/auth-helper";
+import { Link, redirect } from "@/i18n/navigation";
 
 const highlights = [
   { title: "Offline Utility", description: "Forms, session state, and intake workflows stay usable in low-connectivity clinics.", icon: Wifi },
@@ -19,8 +18,10 @@ const quickActions = [
 
 export default async function HomePage() {
   const session = await getSession();
+  const locale = await getLocale();
+  const t = await getTranslations("landing");
 
-  if (session?.user) redirect("/dashboard/session");
+  if (session?.user) redirect({ href: "/dashboard/session", locale });
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -40,10 +41,10 @@ export default async function HomePage() {
               Offline
             </Link>
             <Link href="/docs" className="inline-flex items-center gap-1.5 rounded-xl border border-sky-105 bg-sky-50/80 px-4 py-2 text-sm font-semibold text-sky-700 hover:bg-sky-100 transition">
-              Live Docs
+              {t("liveDocs")}
             </Link>
             <Link href="/login" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">
-              Sign in
+              {t("signin")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -51,16 +52,16 @@ export default async function HomePage() {
 
         <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-sky-700">Field-ready decision support</div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-sky-700">{t("heroBadge")}</div>
 
             <div className="space-y-4">
-              <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Clinical Companion: Grounded Decision Support for Field Healthcare Workers.</h2>
-              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">Built for frontline teams that need a fast, clear, privacy-preserving workflow. Doctor Vai keeps intake usable offline, keeps patient data localized, and uses local AI verification to support decisions instead of replacing them.</p>
+              <h2 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">{t("heroTitle")}</h2>
+              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">{t("heroDescription")} Doctor Vai keeps intake usable offline, keeps patient data localized, and uses local AI verification to support decisions instead of replacing them.</p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link href="/login" className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(5,150,105,0.22)] transition hover:-translate-y-px hover:bg-emerald-700">Go to Dashboard <ArrowRight className="h-4 w-4" /></Link>
-              <Link href="/dashboard/session" className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">View workspace preview</Link>
+              <Link href="/login" className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(5,150,105,0.22)] transition hover:-translate-y-px hover:bg-emerald-700">{t("goDashboard")} <ArrowRight className="h-4 w-4" /></Link>
+              <Link href="/dashboard/session" className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700">{t("preview")}</Link>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">

@@ -33,6 +33,7 @@ An AI-powered decision-support tool designed for frontline field health workers 
 - Added an `/offline` download page plus homepage/dashboard/sidebar entry points for Windows and Linux desktop artifacts expected at `public/offline/windows-setup.exe` and `public/offline/doctor-vai.appimage`.
 - Added offline runtime scaffolding: `OFFLINE=true` mode helpers, offline session fallback, Electron launcher files, PGlite socket-backed Prisma bootstrap, and offline migration wiring.
 - Fixed an Edge runtime regression by moving Node-only DB path logic from `lib/env.ts` into `lib/env-node.ts`.
+- Added locale-prefixed App Router support with `next-intl`, translation catalogs for `en` / `bn` / `hi` / `ur`, a dashboard language switcher, Prisma-backed language preferences, and AI response-language prompt controls exposed in Settings.
 
 ## Core Features
 

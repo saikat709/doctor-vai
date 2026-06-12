@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/auth-helper";
+import { getPromptLanguage } from "@/lib/locale";
 import { generateCompletion, type LlmMessage } from "@/lib/llm-client";
 import {
   getKnowledgeBaseStats,
@@ -6,6 +7,7 @@ import {
   recallFacts,
   searchKnowledgeBase,
 } from "@/lib/rag";
+import { getUserLanguagePreferences } from "@/lib/user-preferences";
 
 type ChatInputMessage = {
   role: "system" | "user" | "assistant";
@@ -48,6 +50,8 @@ export async function runRagConversation(
     latestUserMessage ? recallFacts(latestUserMessage, 4) : [],
     getSession(),
   ]);
+  const preferences = await getUserLanguagePreferences(session?.user);
+  const responseLanguage = getPromptLanguage(preferences.chatbotLanguage);
 
   const evidenceSections = [
     hits.length
@@ -82,7 +86,7 @@ export async function runRagConversation(
   const llmMessages: LlmMessage[] = [
     {
       role: "system",
-      content: `${SYSTEM_PROMPT}\n\n${evidenceSections}`,
+      content: `${SYSTEM_PROMPT}\nAlways respond in ${responseLanguage}. If the user writes in another language, still respond in ${responseLanguage}.\n\n${evidenceSections}`,
     },
     ...messages.map((message) => ({
       role: message.role,

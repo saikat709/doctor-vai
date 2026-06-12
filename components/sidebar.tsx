@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { signOut } from "next-auth/react";
 import {
   Activity,
@@ -17,17 +16,18 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link, usePathname } from "@/i18n/navigation";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: Grid2x2 },
-  { label: "Treatment Guidance", href: "/dashboard/guidance", icon: FileText },
-  { label: "Medicine Interaction", href: "/dashboard/interactions", icon: Pill },
-  { label: "Ask AI", href: "/dashboard/ask-ai", icon: Menu },
-  { label: "Risk Detection", href: "/dashboard/risk", icon: Activity },
-  { label: "Disease Detection", href: "/dashboard/disease", icon: Users },
-  { label: "Vaccination Reminders", href: "/dashboard/reminders", icon: CalendarDays },
-  { label: "Offline", href: "/offline", icon: Download },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { key: "dashboard", href: "/dashboard", icon: Grid2x2 },
+  { key: "treatment", href: "/dashboard/guidance", icon: FileText },
+  { key: "medicine", href: "/dashboard/interactions", icon: Pill },
+  { key: "assistant", href: "/dashboard/ask-ai", icon: Menu },
+  { key: "riskDetection", href: "/dashboard/risk", icon: Activity },
+  { key: "diseaseDetection", href: "/dashboard/disease", icon: Users },
+  { key: "vaccination", href: "/dashboard/reminders", icon: CalendarDays },
+  { key: "offline", href: "/offline", icon: Download },
+  { key: "settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 type SidebarProps = {
@@ -41,6 +41,9 @@ type SidebarProps = {
 
 export function Sidebar({ className, onNavigate, user }: SidebarProps) {
   const pathname = usePathname();
+  const locale = useLocale();
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -114,7 +117,7 @@ export function Sidebar({ className, onNavigate, user }: SidebarProps) {
                 >
                   <Icon className="h-4 w-4" />
                 </span>
-                {item.label}
+                {tNav(item.key)}
               </Link>
             );
           })}
@@ -160,10 +163,10 @@ export function Sidebar({ className, onNavigate, user }: SidebarProps) {
 
               <button
                 type="button"
-                onClick={() => signOut({ callbackUrl: "/login" })}
+                onClick={() => signOut({ callbackUrl: `/${locale}/login` })}
                 className="mt-3 flex w-full items-center justify-center rounded-xl bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-400"
               >
-                Logout
+                {tCommon("logout")}
               </button>
             </div>
           ) : null}

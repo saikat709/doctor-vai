@@ -20,7 +20,7 @@ export async function PATCH(
       data: { status: "Completed" },
     }).catch((e) => {
       // Prisma returns P2025 when the record is not found
-      if ((e as any)?.code === "P2025") {
+      if ((e as { code?: string })?.code === "P2025") {
         return null;
       }
       throw e;

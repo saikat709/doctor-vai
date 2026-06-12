@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth-helper";
 import { invokeDeepSeekStructured } from "@/lib/deepseek";
+import { getPromptLanguage } from "@/lib/locale";
 import { buildOllamaNotConfiguredResponse } from "@/lib/local-llm";
+import { getUserLanguagePreferences } from "@/lib/user-preferences";
 
 type InteractionPayload = {
   disease?: string;
@@ -87,12 +89,14 @@ export async function POST(request: Request) {
   const body = (await request.json()) as InteractionPayload;
   try {
     const session = await getSession();
+    const preferences = await getUserLanguagePreferences(session?.user);
+    const responseLanguage = getPromptLanguage(preferences.chatbotLanguage);
     const result = await invokeDeepSeekStructured<InteractionResult>({
       userId: session?.user?.id,
       model: "deepseek-chat",
       temperature: 0.2,
       systemPrompt:
-        "Return only JSON with keys verdict, explanation, and alternatives. Verdict must be one of: Go Ahead, Not Harmful, Moderate Harm, Seems Harmful.",
+        `Always write explanation and alternatives in ${responseLanguage}. Return only JSON with keys verdict, explanation, and alternatives. Verdict must be one of: Go Ahead, Not Harmful, Moderate Harm, Seems Harmful.`,
       userPrompt: JSON.stringify(body),
       schema: interactionSchema,
       knowledgeQuery: [body.disease, body.symptoms, ...(body.medicines ?? [])].filter(Boolean).join(" "),
